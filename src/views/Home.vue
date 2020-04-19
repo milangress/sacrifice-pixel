@@ -14,7 +14,7 @@
     <div class="colorBars">
       <div v-for="(item) in imageData" :key="item.color" class="colorBarWrapper">
         <div v-bind:style="{ background: item.color, width: item.percent + '%'}" class="colorBar">
-          <p>{{item.val}}</p>
+          <p>{{item.val}} ({{item.percent}}%)</p>
         </div>
         <!--{{ val[0].split(";") }}-->
       </div>
@@ -105,7 +105,7 @@ export default {
         return {
           color: `rgb(${color.join(",")})`,
           val: pixelVal[1],
-          percent: (pixelVal[1] / (this.width * this.height) ) * 100
+          percent: Math.round(((pixelVal[1] / (this.width * this.height) ) * 100) * 100) / 100
         }
       })
       let shortend = object.filter(color => color.percent > 0.5)
