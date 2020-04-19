@@ -14,7 +14,7 @@
     <div class="colorBars">
       <div v-for="(item) in imageData" :key="item.color" class="colorBarWrapper">
         <div v-bind:style="{ background: item.color, width: item.percent + '%'}" class="colorBar">
-          <p>{{item.val}} ({{item.percent}}%)</p>
+          <p>{{item.val}}({{item.percent}}%)</p>
         </div>
         <!--{{ val[0].split(";") }}-->
       </div>
