@@ -63,7 +63,7 @@ export default {
       sk.strokeWeight(4)
     },
     draw(sk) {
-      sk.stroke(sk.color(this.currentBrushColor[0], this.currentBrushColor[1], this.currentBrushColor[2]))
+      sk.stroke(...this.currentBrushColor)
       sk.strokeWeight(this.strokeWidth)
       if (this.nextComputePixel) {
         this.computePixels(sk)
@@ -79,12 +79,7 @@ export default {
     },
     setToRandomNewColor(){
       console.log('newcolor')
-      this.currentBrushColor = [
-              Math.floor(Math.random() * 255),
-              Math.floor(Math.random() * 255),
-              Math.floor(Math.random() * 255)
-      ]
-      debugger
+      this.currentBrushColor = [255,255,255].map(max => Math.floor(Math.random() * max))
     },
     computePixels(sk) {
       console.log('computePixels')
