@@ -33,20 +33,27 @@ export default {
   data: function() {
     return {
         imageData: [{ "color": "rgb(0,128,0)", "val": 259188 }],
-        width: 500,
-        height: 650,
+        width: 200,
+        height: 325,
         strokeWidth: 4,
         nextComputePixel: true,
         currentBrushColor: [0,128,0]
       }
     },
   mounted() {
-    setInterval(this.update, 500);
+    setInterval(this.update, 250);
     this.setToRandomNewColor();
+    setTimeout(this.veryHackyCanvasScaler, 1000)
   },
   methods: {
     update: function() {
       this.nextComputePixel = true
+    },
+    veryHackyCanvasScaler: function() {
+      const theP5Canvas = document.getElementById("defaultCanvas0")
+      theP5Canvas.style.width = this.width * 2 + "px"
+      theP5Canvas.style.height = this.height * 2 + "px"
+      debugger
     },
     setup(sk) {
       sk.createCanvas(this.width,this.height);
