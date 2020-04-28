@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import changelog from "../views/changelog"
 
 Vue.use(VueRouter)
 
@@ -10,6 +11,11 @@ Vue.use(VueRouter)
     name: 'Home',
     component: Home
   },
+    {
+      path: '/changelog',
+      name: 'Changelog',
+      component: changelog
+    },
   {
     path: '/v2',
     name: 'roundedColors',

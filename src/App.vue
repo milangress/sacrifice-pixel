@@ -3,7 +3,7 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/v2">Version roundedColors</router-link> |
-      <router-link to="/">Version 6-3</router-link>
+      <router-link to="/changelog">changes</router-link>
     </div>
     <router-view/>
   </div>
