@@ -1,8 +1,12 @@
-<template>
-    <div>
-    <h2>version 0.0.1</h2>
-    <a href="http://sacrifice-gk4bcmov6.now.sh">sacrifice-gk4bcmov6.now.sh</a>
-    </div>
+<template lang='pug'>
+    div.changelist
+        section
+            h2 version 0.0.2
+            p updated to PUG
+            a(href="http://sacrifice-gk4bcmov6.now.sh") sacrifice-gk4bcmov6.now.sh
+        section
+            h2 version 0.0.1
+            a(href="http://sacrifice-gk4bcmov6.now.sh") sacrifice-gk4bcmov6.now.sh
 </template>
 
 <script>
