@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <vue-p5 @setup="imgSetup"
+            @draw="imgDraw"></vue-p5>
     <div class="paintControllBar">
       <div v-on:click="setToRandomNewColor()"
            v-bind:style="{background: 'rgb(' + this.currentBrushColor.join() + ')'}"
@@ -30,6 +32,9 @@
 //import HelloWorld from '@/components/HelloWorld.vue'
 import VueP5 from 'vue-p5'
 
+let input;
+let img;
+
 export default {
   name: 'Home',
   components: {VueP5},
@@ -50,14 +55,34 @@ export default {
     setTimeout(this.veryHackyCanvasScaler, 1000)
   },
   methods: {
+    imgSetup: function (sk) {
+      function handleFile(file) {
+        sk.print(file);
+        if (file.type === 'image') {
+          img = sk.createImg(file.data, '');
+          img.hide();
+        } else {
+          img = null;
+        }
+      }
+      input = sk.createFileInput(handleFile);
+      input.position(0, 0);
+    },
+    imgDraw: function (sk) {
+      sk.background(255);
+      if (img) {
+        sk.image(img, 0, 0, sk.width, sk.height);
+      }
+    },
     update: function () {
       this.nextComputePixel = true
     },
     veryHackyCanvasScaler: function () {
-      const theP5Canvas = document.getElementById("defaultCanvas0")
-      theP5Canvas.style.width = this.width * 2 + "px"
-      theP5Canvas.style.height = this.height * 2 + "px"
-      debugger
+      const theP5Canvases = document.getElementsByClassName("p5Canvas")
+      for (let canvas of theP5Canvases) {
+        canvas.style.width = this.width * 2 + "px"
+        canvas.style.height = this.height * 2 + "px"
+      }
     },
     setup(sk) {
       sk.createCanvas(this.width, this.height);
