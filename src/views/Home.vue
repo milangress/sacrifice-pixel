@@ -3,9 +3,13 @@
     <vue-p5 @setup="imgSetup"
             @draw="imgDraw"></vue-p5>
     <div class="paintControllBar">
+      <div id="uploadHolder"></div>
+      <hr>
+      <div @click="didComputePixel = false" class="squareButton">⬅︎ Get Pixels</div>
+      <hr>
       <div v-on:click="setToRandomNewColor()"
            v-bind:style="{background: 'rgb(' + this.currentBrushColor.join() + ')'}"
-           class="squareButton">new</div>
+           class="squareButton">new color</div>
       <input type="range"  v-model="strokeWidth"/> <br>
       <hr>
       <input type="number" value="3" v-model="posterizeVal">
@@ -46,7 +50,8 @@ export default {
         strokeWidth: 4,
         posterizeVal: 3,
         nextComputePixel: true,
-        currentBrushColor: [0,128,0]
+        currentBrushColor: [0,120,0],
+        didComputePixel: false
       }
     },
   mounted() {
@@ -66,12 +71,16 @@ export default {
         }
       }
       input = sk.createFileInput(handleFile);
-      input.position(0, 0);
+      input.parent('uploadHolder')
     },
     imgDraw: function (sk) {
       sk.background(255);
       if (img) {
         sk.image(img, 0, 0, sk.width, sk.height);
+        if (!this.didComputePixel) {
+          this.getPixelArray(sk)
+          this.didComputePixel = true;
+        }
       }
     },
     update: function () {
@@ -87,7 +96,7 @@ export default {
     setup(sk) {
       sk.createCanvas(this.width, this.height);
       sk.pixelDensity(1)
-      sk.background('green')
+      sk.background(255,255,255)
       //sk.text('Hello p5!', 20, 20)
       sk.strokeWeight(4)
     },
@@ -119,7 +128,6 @@ export default {
       return Math.floor(color / 10) * 10
     },
     computePixels(sk) {
-      console.log('computePixels')
       sk.loadPixels();
       let pixeldata = []
       for (var y = 0; y < sk.height; y++) {
@@ -149,6 +157,18 @@ export default {
       })
       let shortend = object.filter(color => color.percent > 0.5)
       this.imageData = shortend
+    },
+    getPixelArray: function (sk) {
+      sk.loadPixels();
+      let pixeldata = []
+      for (let y = 0; y < sk.height; y++) {
+        for (let x = 0; x < sk.width; x++) {
+          let index = (x + y * sk.width) * 4;
+          pixeldata.push(`${sk.pixels[index]};${sk.pixels[index + 1]};${sk.pixels[index + 2]}`)
+        }
+      }
+      const pixels = this.sortedPixels(pixeldata)
+      console.log(pixels)
     },
     sortedPixels: function (array) {
       let result = {}
@@ -207,6 +227,9 @@ export default {
     outline: 1px solid black;
     height: 650px;
     padding: 1rem;
+  }
+  .p5Canvas {
+    outline: 1px solid black;
   }
   input[type=range][orient=vertical]
   {
