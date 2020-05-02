@@ -1,7 +1,16 @@
 <template>
   <div class="home">
     <vue-p5 @setup="imgSetup"
-            @draw="imgDraw"></vue-p5>
+            @draw="imgDraw"
+            @mouseDragged="imgMouseReleased"></vue-p5>
+    <div class="colorBars">
+      <div v-for="(item) in imageDataSoll" :key="item.color" class="colorBarWrapper">
+        <div @click="currentBrushColor = item.colorVal" v-bind:style="{ background: item.color, width: item.percent + '%'}" class="colorBar">
+          <p>{{item.val}}({{item.percent}}%)<br>{{item.color}}</p>
+        </div>
+        <!--{{ val[0].split(";") }}-->
+      </div>
+    </div>
     <div class="paintControllBar">
       <div id="uploadHolder"></div>
       <hr>
@@ -13,6 +22,8 @@
       <input type="range"  v-model="strokeWidth"/> <br>
       <hr>
       <input type="number" value="3" v-model="posterizeVal">
+      <hr>
+      <div @click="nextCleanupPixel = true" class="squareButton">Cleanup</div>
       <!--<input type="color" value="#ff0000">-->
     </div>
     <vue-p5 @setup="setup"
@@ -22,12 +33,13 @@
             @mouseReleased="mouseReleased"></vue-p5>
     <div class="colorBars">
       <div v-for="(item) in imageData" :key="item.color" class="colorBarWrapper">
-        <div v-bind:style="{ background: item.color, width: item.percent + '%'}" class="colorBar">
+        <div @click="currentBrushColor = item.colorVal" v-bind:style="{ background: item.color, width: item.percent + '%'}" class="colorBar">
           <p>{{item.val}}({{item.percent}}%)<br>{{item.color}}</p>
         </div>
         <!--{{ val[0].split(";") }}-->
       </div>
     </div>
+    <img src="../assets/IMG_7814.jpeg" style="display: none" id="defaultimg">
   </div>
 </template>
 
@@ -38,6 +50,9 @@ import VueP5 from 'vue-p5'
 
 let input;
 let img;
+let pixelSoll = {}
+let pixelIst = {}
+let pixelCounter = {}
 
 export default {
   name: 'Home',
@@ -45,13 +60,15 @@ export default {
   data: function() {
     return {
         imageData: [{ "color": "rgb(0,128,0)", "val": 259188 }],
+        imageDataSoll: [{ "color": "rgb(0,128,0)", "val": 259188 }],
         width: 200,
         height: 325,
         strokeWidth: 4,
         posterizeVal: 3,
         nextComputePixel: true,
         currentBrushColor: [0,120,0],
-        didComputePixel: false
+        didComputePixel: false,
+        nextCleanupPixel: false
       }
     },
   mounted() {
@@ -66,22 +83,33 @@ export default {
         if (file.type === 'image') {
           img = sk.createImg(file.data, '');
           img.hide();
+          sk.image(img, 0, 0, sk.width, sk.height);
         } else {
           img = null;
         }
       }
+      sk.createCanvas(this.width, this.height);
+      sk.pixelDensity(1)
       input = sk.createFileInput(handleFile);
       input.parent('uploadHolder')
+      img = sk.createImg('https://i.imgur.com/JL0k7sL.jpg', 'anonymous', '');
+      img.hide();
     },
     imgDraw: function (sk) {
-      sk.background(255);
+      //sk.background(255);
       if (img) {
         sk.image(img, 0, 0, sk.width, sk.height);
+        sk.filter(sk.POSTERIZE, this.posterizeVal)
         if (!this.didComputePixel) {
           this.getPixelArray(sk)
           this.didComputePixel = true;
         }
       }
+    },
+    imgMouseReleased: function (sk) {
+      console.log('test')
+      const color = sk.get(sk.mouseX, sk.mouseY)
+      console.log(color)
     },
     update: function () {
       this.nextComputePixel = true
@@ -104,8 +132,13 @@ export default {
       sk.stroke(...this.currentBrushColor)
       sk.strokeWeight(this.strokeWidth)
       if (this.nextComputePixel) {
+        this.roundPixels(sk)
         this.computePixels(sk)
         this.nextComputePixel = false
+      }
+      if (this.nextCleanupPixel) {
+        this.killOverflowingPixels(sk)
+        this.nextCleanupPixel = false
       }
       //sk.updatePixels();
     },
@@ -137,7 +170,7 @@ export default {
           sk.pixels[index+1] = this.roundColor(sk.pixels[index+1])
           sk.pixels[index+2] = this.roundColor(sk.pixels[index+2])
           // sk.pixels[index+3] = 255;
-          pixeldata.push(`${sk.pixels[index + 0]};${sk.pixels[index + 1]};${sk.pixels[index + 2]}`)
+          pixeldata.push(`${sk.pixels[index + 0]}-${sk.pixels[index + 1]}-${sk.pixels[index + 2]}`)
 
         }
       }
@@ -145,18 +178,20 @@ export default {
       //console.log(this.sortedPixels(pixeldata));
 
       let pixels = this.sortedPixels(pixeldata)
+      pixelIst = pixels
       let entries = Object.entries(pixels)
       let sorted = entries.sort((a, b) => b[1] - a[1])
       let object = sorted.map(pixelVal => {
-        let color = pixelVal[0].split(";")
+        let color = pixelVal[0].split("-")
         return {
           color: `rgb(${color.join(",")})`,
+          colorVal: color,
           val: pixelVal[1],
           percent: Math.round(((pixelVal[1] / (this.width * this.height)) * 100) * 100) / 100
         }
       })
-      let shortend = object.filter(color => color.percent > 0.5)
-      this.imageData = shortend
+      //let shortend = object.filter(color => color.percent > 0.5)
+      this.imageData = object
     },
     getPixelArray: function (sk) {
       sk.loadPixels();
@@ -164,11 +199,51 @@ export default {
       for (let y = 0; y < sk.height; y++) {
         for (let x = 0; x < sk.width; x++) {
           let index = (x + y * sk.width) * 4;
-          pixeldata.push(`${sk.pixels[index]};${sk.pixels[index + 1]};${sk.pixels[index + 2]}`)
+          pixeldata.push(`${sk.pixels[index]}-${sk.pixels[index + 1]}-${sk.pixels[index + 2]}`)
         }
       }
-      const pixels = this.sortedPixels(pixeldata)
-      console.log(pixels)
+      pixelSoll = this.sortedPixels(pixeldata)
+      let entries = Object.entries(pixelSoll)
+      let sorted = entries.sort((a, b) => b[1] - a[1])
+      this.imageDataSoll = sorted.map(pixelVal => {
+        let color = pixelVal[0].split("-")
+        return {
+          color: `rgb(${color.join(",")})`,
+          colorVal: color,
+          val: pixelVal[1],
+          percent: Math.round(((pixelVal[1] / (this.width * this.height)) * 100) * 100) / 100
+        }
+      })
+      console.log(pixelSoll)
+      console.log(pixelIst)
+    },
+    killOverflowingPixels: function (sk) {
+      sk.loadPixels();
+      pixelCounter = {}
+      for (let y = 0; y < sk.height; y++) {
+        for (let x = 0; x < sk.width; x++) {
+          let index = (x + y * sk.width) * 4;
+          const pixelhash = `${sk.pixels[index]}-${sk.pixels[index + 1]}-${sk.pixels[index + 2]}`
+          /*console.log(pixelCounter[pixelhash])
+          console.log({counter: pixelCounter[pixelhash], soll: pixelSoll[pixelhash]})
+          debugger*/
+          if (!pixelCounter[pixelhash]) {
+            pixelCounter[pixelhash] = 0
+          }
+          pixelCounter[pixelhash] += 1
+          let sol = pixelSoll[pixelhash]
+          debugger
+          if (pixelSoll[pixelhash] === undefined || pixelCounter[pixelhash] > pixelSoll[pixelhash]) {
+            sk.pixels[index + 0] = 255
+            sk.pixels[index + 1] = 255
+            sk.pixels[index + 2] = 255
+            console.log(sol)
+            debugger
+          }
+        }
+      }
+      console.log({pixelCounter})
+      sk.updatePixels()
     },
     sortedPixels: function (array) {
       let result = {}
@@ -181,16 +256,13 @@ export default {
       return result
     },
     roundPixels: function (sk) {
-      const round = function (x) {
-        return Math.ceil(x / 5) * 5;
-      }
       sk.loadPixels();
       for (var y = 0; y < sk.height; y++) {
         for (var x = 0; x < sk.width; x++) {
           var index = (x + y * sk.width) * 4;
-          sk.pixels[index+0] = round(sk.pixels[index+0])
-          sk.pixels[index+1] = round(sk.pixels[index+1])
-          sk.pixels[index+2] = round(sk.pixels[index+2])
+          sk.pixels[index+0] = this.roundColor(sk.pixels[index+0])
+          sk.pixels[index+1] = this.roundColor(sk.pixels[index+1])
+          sk.pixels[index+2] = this.roundColor(sk.pixels[index+2])
           sk.pixels[index+3] = 255;
         }
       }
@@ -208,7 +280,8 @@ export default {
     display: flex;
   }
   .colorBars {
-    margin: 0 2rem;
+    margin-left: 0;
+    margin-right: 0;
     outline: 1px solid black;
     background: darkgray;
     padding: 1rem;
@@ -219,7 +292,7 @@ export default {
   .colorBar {
     text-align: left;
     color: white;
-    padding: 0.2rem;
+    padding: 0.1rem;
   }
   .paintControllBar {
     min-width: 2rem;
