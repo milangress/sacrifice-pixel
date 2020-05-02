@@ -4,17 +4,20 @@
       <div v-on:click="setToRandomNewColor()"
            v-bind:style="{background: 'rgb(' + this.currentBrushColor.join() + ')'}"
            class="squareButton">new</div>
-      <input type="range" orient="vertical" v-model="strokeWidth"/>
+      <input type="range"  v-model="strokeWidth"/> <br>
+      <hr>
+      <input type="number" value="3" v-model="posterizeVal">
       <!--<input type="color" value="#ff0000">-->
     </div>
     <vue-p5 @setup="setup"
             @draw="draw"
             @keypressed="keypressed"
-            @mousedragged="mousedragged"></vue-p5>
+            @mousedragged="mousedragged"
+            @mouseReleased="mouseReleased"></vue-p5>
     <div class="colorBars">
       <div v-for="(item) in imageData" :key="item.color" class="colorBarWrapper">
         <div v-bind:style="{ background: item.color, width: item.percent + '%'}" class="colorBar">
-          <p>{{item.val}}({{item.percent}}%)</p>
+          <p>{{item.val}}({{item.percent}}%)<br>{{item.color}}</p>
         </div>
         <!--{{ val[0].split(";") }}-->
       </div>
@@ -36,6 +39,7 @@ export default {
         width: 200,
         height: 325,
         strokeWidth: 4,
+        posterizeVal: 3,
         nextComputePixel: true,
         currentBrushColor: [0,128,0]
       }
@@ -46,17 +50,17 @@ export default {
     setTimeout(this.veryHackyCanvasScaler, 1000)
   },
   methods: {
-    update: function() {
+    update: function () {
       this.nextComputePixel = true
     },
-    veryHackyCanvasScaler: function() {
+    veryHackyCanvasScaler: function () {
       const theP5Canvas = document.getElementById("defaultCanvas0")
       theP5Canvas.style.width = this.width * 2 + "px"
       theP5Canvas.style.height = this.height * 2 + "px"
       debugger
     },
     setup(sk) {
-      sk.createCanvas(this.width,this.height);
+      sk.createCanvas(this.width, this.height);
       sk.pixelDensity(1)
       sk.background('green')
       //sk.text('Hello p5!', 20, 20)
@@ -75,28 +79,36 @@ export default {
       sk.line(sk.pmouseX, sk.pmouseY, sk.mouseX, sk.mouseY)
     },
     keypressed(sk) {
-      sk.stroke(sk.color(sk.random(255),sk.random(255),sk.random(255)))
+      sk.filter(sk.POSTERIZE, this.posterizeVal)
     },
-    setToRandomNewColor(){
+    mouseReleased(sk) {
+      console.log('mouse')
+      this.roundPixels(sk)
+    },
+    setToRandomNewColor() {
       console.log('newcolor')
-      this.currentBrushColor = [255,255,255].map(max => Math.floor(Math.random() * max))
+      this.currentBrushColor = [255, 255, 255].map(max => Math.floor(Math.random() * max)).map(this.roundColor)
+    },
+    roundColor(color){
+      //return Math.ceil(color / 5) * 5;
+      return Math.floor(color / 10) * 10
     },
     computePixels(sk) {
       console.log('computePixels')
       sk.loadPixels();
       let pixeldata = []
-      for (var y = 0; y < sk.height; y++){
-        for (var x = 0; x < sk.width; x++){
+      for (var y = 0; y < sk.height; y++) {
+        for (var x = 0; x < sk.width; x++) {
           var index = (x + y * sk.width) * 4;
-          /*sk.pixels[index+0] = 0;
-          sk.pixels[index+1] = sk.random(255);
-          sk.pixels[index+2] = 0;
-          sk.pixels[index+3] = 255;*/
-          pixeldata.push(`${sk.pixels[index+0]};${sk.pixels[index+1]};${sk.pixels[index+2]}`)
+          sk.pixels[index+0] = this.roundColor(sk.pixels[index+0])
+          sk.pixels[index+1] = this.roundColor(sk.pixels[index+1])
+          sk.pixels[index+2] = this.roundColor(sk.pixels[index+2])
+          // sk.pixels[index+3] = 255;
+          pixeldata.push(`${sk.pixels[index + 0]};${sk.pixels[index + 1]};${sk.pixels[index + 2]}`)
 
         }
       }
-      //sk.updatePixels();
+      sk.updatePixels();
       //console.log(this.sortedPixels(pixeldata));
 
       let pixels = this.sortedPixels(pixeldata)
@@ -107,16 +119,16 @@ export default {
         return {
           color: `rgb(${color.join(",")})`,
           val: pixelVal[1],
-          percent: Math.round(((pixelVal[1] / (this.width * this.height) ) * 100) * 100) / 100
+          percent: Math.round(((pixelVal[1] / (this.width * this.height)) * 100) * 100) / 100
         }
       })
       let shortend = object.filter(color => color.percent > 0.5)
       this.imageData = shortend
     },
-   sortedPixels: function(array) {
+    sortedPixels: function (array) {
       let result = {}
       for (let i = 0; i < array.length; ++i) { // loop over array
-        if (!result[array[i]]){  // if no key for that number yet
+        if (!result[array[i]]) {  // if no key for that number yet
           result[array[i]] = 0;  // then make one
         }
         ++result[array[i]];     // increment the property for that number
