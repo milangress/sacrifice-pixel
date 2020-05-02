@@ -123,6 +123,22 @@ export default {
       }
       return result
     },
+    roundPixels: function (sk) {
+      const round = function (x) {
+        return Math.ceil(x / 5) * 5;
+      }
+      sk.loadPixels();
+      for (var y = 0; y < sk.height; y++) {
+        for (var x = 0; x < sk.width; x++) {
+          var index = (x + y * sk.width) * 4;
+          sk.pixels[index+0] = round(sk.pixels[index+0])
+          sk.pixels[index+1] = round(sk.pixels[index+1])
+          sk.pixels[index+2] = round(sk.pixels[index+2])
+          sk.pixels[index+3] = 255;
+        }
+      }
+      sk.updatePixels();
+    },
   }
 }
 </script>
