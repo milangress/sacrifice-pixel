@@ -16,14 +16,6 @@ Vue.use(VueRouter)
       name: 'Changelog',
       component: changelog
     },
-  {
-    path: '/v2',
-    name: 'roundedColors',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "roundedColors" */ '../views/roundedColors.vue')
-  }
 ]
 
 const router = new VueRouter({
