@@ -2,7 +2,6 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/v2">Version roundedColors</router-link> |
       <router-link to="/changelog">changes</router-link>
     </div>
     <router-view/>
@@ -11,15 +10,17 @@
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Arial Narrow", Arial;
+  font-weight: bold;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
+  padding: 30px;
 }
 
 #nav {
-  padding: 30px;
+  padding-bottom: 30px;
 }
 
 #nav a {
