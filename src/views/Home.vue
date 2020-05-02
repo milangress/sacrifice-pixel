@@ -199,6 +199,9 @@ export default {
       for (let y = 0; y < sk.height; y++) {
         for (let x = 0; x < sk.width; x++) {
           let index = (x + y * sk.width) * 4;
+          sk.pixels[index+0] = this.roundColor(sk.pixels[index+0])
+          sk.pixels[index+1] = this.roundColor(sk.pixels[index+1])
+          sk.pixels[index+2] = this.roundColor(sk.pixels[index+2])
           pixeldata.push(`${sk.pixels[index]}-${sk.pixels[index + 1]}-${sk.pixels[index + 2]}`)
         }
       }
