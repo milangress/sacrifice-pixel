@@ -6,7 +6,7 @@
     <div class="colorBars">
       <div id="uploadHolder"></div>
       <hr>
-      <p>Posterize Value: <input type="number" value="3" v-model="posterizeVal"></p>
+      <p>Posterize:  <input type="number" value="3" v-model="posterizeVal" style="width: 35px"></p>
       <hr>
       <div @click="didComputePixel = false" class="squareButton">↺ Update Pixels</div>
       <hr>
