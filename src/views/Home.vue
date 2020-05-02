@@ -4,6 +4,12 @@
             @draw="imgDraw"
             @mouseDragged="imgMouseReleased"></vue-p5>
     <div class="colorBars">
+      <div id="uploadHolder"></div>
+      <hr>
+      <p>Posterize Value: <input type="number" value="3" v-model="posterizeVal"></p>
+      <hr>
+      <div @click="didComputePixel = false" class="squareButton">↺ Update Pixels</div>
+      <hr>
       <div v-for="(item) in imageDataSoll" :key="item.color" class="colorBarWrapper">
         <div @click="currentBrushColor = item.colorVal" v-bind:style="{ background: item.color, width: item.percent + '%'}" class="colorBar">
           <p>{{item.val}}({{item.percent}}%)<br>{{item.color}}</p>
@@ -12,16 +18,10 @@
       </div>
     </div>
     <div class="paintControllBar">
-      <div id="uploadHolder"></div>
-      <hr>
-      <div @click="didComputePixel = false" class="squareButton">⬅︎ Get Pixels</div>
-      <hr>
       <div v-on:click="setToRandomNewColor()"
            v-bind:style="{background: 'rgb(' + this.currentBrushColor.join() + ')'}"
            class="squareButton">new color</div>
       <input type="range"  v-model="strokeWidth"/> <br>
-      <hr>
-      <input type="number" value="3" v-model="posterizeVal">
       <hr>
       <div @click="nextCleanupPixel = true" class="squareButton">Cleanup</div>
       <!--<input type="color" value="#ff0000">-->
