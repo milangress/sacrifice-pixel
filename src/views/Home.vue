@@ -1,8 +1,7 @@
 <template>
   <div class="home">
     <vue-p5 @setup="imgSetup"
-            @draw="imgDraw"
-            @mouseDragged="imgMouseReleased"></vue-p5>
+            @draw="imgDraw"></vue-p5>
     <div class="colorBars">
       <div id="uploadHolder"></div>
       <hr>
@@ -18,10 +17,20 @@
       </div>
     </div>
     <div class="paintControllBar">
+      <div v-bind:style="{background: 'rgb(' + this.currentBrushColor.join() + ')'}"
+           class="squareButton">Color</div>
       <div v-on:click="setToRandomNewColor()"
            v-bind:style="{background: 'rgb(' + this.currentBrushColor.join() + ')'}"
-           class="squareButton">new color</div>
+           class="squareButton">random color</div>
+      <hr>
+      <div @click="currentTool = 'Brush'" class="squareButton">◉ Brush</div>
       <input type="range"  v-model="strokeWidth"/> <br>
+      <hr>
+      <div @click="currentTool = 'SinglePixel'" class="squareButton">▪︎ Pixel</div>
+      <hr>
+      <div @click="currentTool = 'PixelBrush'" class="squareButton">◼︎ Square</div>
+      <input type="number" value="3" v-model="pixelBrushSize" style="width: 100%">
+      <hr>
       <hr>
       <div @click="nextCleanupPixel = true" class="squareButton">Cleanup</div>
       <!--<input type="color" value="#ff0000">-->
@@ -67,8 +76,11 @@ export default {
         posterizeVal: 3,
         nextComputePixel: true,
         currentBrushColor: [0,120,0],
+        currentTool: 'Brush',
+        pixelBrushSize: 3,
         didComputePixel: false,
-        nextCleanupPixel: false
+        nextCleanupPixel: false,
+        autoCleanupPixel: false
       }
     },
   mounted() {
@@ -106,11 +118,6 @@ export default {
         }
       }
     },
-    imgMouseReleased: function (sk) {
-      console.log('test')
-      const color = sk.get(sk.mouseX, sk.mouseY)
-      console.log(color)
-    },
     update: function () {
       this.nextComputePixel = true
     },
@@ -143,7 +150,30 @@ export default {
       //sk.updatePixels();
     },
     mousedragged(sk) {
-      sk.line(sk.pmouseX, sk.pmouseY, sk.mouseX, sk.mouseY)
+      switch (this.currentTool) {
+        case "Brush":
+          sk.line(sk.pmouseX, sk.pmouseY, sk.mouseX, sk.mouseY)
+          break;
+        case "SinglePixel":
+          sk.set(sk.mouseX, sk.mouseY, [...this.currentBrushColor, 255])
+          sk.updatePixels()
+          break;
+        case "TwoByTwoPixel":
+          sk.set(sk.mouseX, sk.mouseY, [...this.currentBrushColor, 255])
+          sk.set(sk.mouseX, sk.mouseY + 1, [...this.currentBrushColor, 255])
+          sk.set(sk.mouseX + 1, sk.mouseY, [...this.currentBrushColor, 255])
+          sk.set(sk.mouseX + 1, sk.mouseY + 1, [...this.currentBrushColor, 255])
+          sk.updatePixels()
+          break;
+        case "PixelBrush":
+          for (let i = 0; i < this.pixelBrushSize; i++) {
+            for (let j = 0; j < this.pixelBrushSize; j++) {
+              sk.set(sk.mouseX + i, sk.mouseY + j, [...this.currentBrushColor, 255])
+            }
+          }
+          sk.updatePixels()
+          break;
+      }
     },
     keypressed(sk) {
       sk.filter(sk.POSTERIZE, this.posterizeVal)
@@ -307,13 +337,15 @@ export default {
   .p5Canvas {
     outline: 1px solid black;
   }
-  input[type=range][orient=vertical]
-  {
+  input[type=range][orient=vertical] {
     writing-mode: bt-lr; /* IE */
     -webkit-appearance: slider-vertical; /* WebKit */
     width: 8px;
     height: 175px;
     padding: 0 5px;
+  }
+  input[type=range] {
+    width: 100%;
   }
   .squareButton {
     padding: 0.25rem;
