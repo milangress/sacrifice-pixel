@@ -2,8 +2,6 @@
     div.changelist
         p Current Deployment is always on:
         a(href="https://sacrifice.now.sh/") sacrifice.now.sh
-        p Github commits (please dont look at my code):
-        a(href="https://github.com/milangress/sacrifice-pixel/commits/master") github.com/milangress/sacrifice-pixel/commits/master
         h1 Log
         section
             h2 fuck the versioning?
