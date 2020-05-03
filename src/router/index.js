@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import changelog from "../views/changelog"
+import manual from "../views/manual"
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ Vue.use(VueRouter)
       path: '/changelog',
       name: 'Changelog',
       component: changelog
+    },
+    {
+      path: '/manual',
+      name: 'manual',
+      component: manual
     },
 ]
 
