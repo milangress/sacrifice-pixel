@@ -1,7 +1,12 @@
 <template lang='pug'>
     div.changelist
+        p Current Deployment is always on:
+        a(href="https://sacrifice.now.sh/") sacrifice.now.sh
+        p Github commits (please dont look at my code):
+        a(href="https://github.com/milangress/sacrifice-pixel/commits/master") github.com/milangress/sacrifice-pixel/commits/master
+        h1 Log
         section
-            h2 fuck the versioning
+            h2 fuck the versioning?
             p this is the first (working)? version. <br> the Cleanup button can now remove Pixel that are not found in the source image
             a(href="https://acrifice-cbpvj6zz1.now.sh") sacrifice-cbpvj6zz1.now.sh
         section
