@@ -23,6 +23,8 @@
            v-bind:style="{background: 'rgb(' + this.currentBrushColor.join() + ')'}"
            class="squareButton">random color</div>
       <hr>
+      <div @click="currentBrushColor = [255,255,255]" class="squareButton">😤 Eraser</div>
+      <hr>
       <div @click="currentTool = 'Brush'" class="squareButton">◉ Brush</div>
       <input type="range"  v-model="strokeWidth"/> <br>
       <hr>
