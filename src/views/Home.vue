@@ -33,6 +33,9 @@
       <div @click="currentTool = 'PixelBrush'" class="squareButton">◼︎ Square</div>
       <input type="number" value="3" v-model="pixelBrushSize" style="width: 100%">
       <hr>
+      <div @click="currentTool = 'PixelFill'" class="squareButton">◼︎ FILL</div>
+      <input type="number" value="8" v-model="pixelFillSize" style="width: 100%">
+      <hr>
       <hr>
       <div @click="nextCleanupPixel = true" class="squareButton">Cleanup</div>
       <!--<input type="color" value="#ff0000">-->
@@ -80,6 +83,7 @@ export default {
         currentBrushColor: [0,120,0],
         currentTool: 'Brush',
         pixelBrushSize: 3,
+        pixelFillSize: 8,
         didComputePixel: false,
         nextCleanupPixel: false,
         autoCleanupPixel: false
@@ -175,6 +179,19 @@ export default {
           }
           sk.updatePixels()
           break;
+        case "PixelFill":
+          for (let i = 0; i < this.pixelFillSize; i++) {
+            for (let j = 0; j < this.pixelFillSize; j++) {
+              const color = sk.get(sk.mouseX + i, sk.mouseY + j)
+              console.log(color)
+              if (color[0] >= 250 && color[1] >= 250 && color[2] >= 250) {
+                sk.set(sk.mouseX + i, sk.mouseY + j, [...this.currentBrushColor, 255])
+              }
+            }
+          }
+          sk.updatePixels()
+          break;
+
       }
     },
     keypressed(sk) {
