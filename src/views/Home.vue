@@ -1,60 +1,51 @@
-<template>
-  <div class="home">
-    <vue-p5 @setup="imgSetup"
-            @draw="imgDraw"></vue-p5>
-    <div class="colorBars">
-      <div id="uploadHolder"></div>
-      <hr>
-      <p>Posterize:  <input type="number" value="3" v-model="posterizeVal" style="width: 35px"></p>
-      <hr>
-      <div @click="didComputePixel = false" class="squareButton">↺ Update Pixels</div>
-      <hr>
-      <div v-for="(item) in imageDataSoll" :key="item.color" class="colorBarWrapper">
-        <div @click="currentBrushColor = item.colorVal" v-bind:style="{ background: item.color, width: item.percent + '%'}" class="colorBar">
-          <p>{{item.val}}({{item.percent}}%)<br>{{item.color}}</p>
-        </div>
-        <!--{{ val[0].split(";") }}-->
-      </div>
-    </div>
-    <div class="paintControllBar">
-      <div v-bind:style="{background: 'rgb(' + this.currentBrushColor.join() + ')'}"
-           class="squareButton">Color</div>
-      <div v-on:click="setToRandomNewColor()"
-           v-bind:style="{background: 'rgb(' + this.currentBrushColor.join() + ')'}"
-           class="squareButton">random color</div>
-      <hr>
-      <div @click="currentBrushColor = [255,255,255]" class="squareButton">😤 Eraser</div>
-      <hr>
-      <div @click="currentTool = 'Brush'" class="squareButton">◉ Brush</div>
-      <input type="range"  v-model="strokeWidth"/> <br>
-      <hr>
-      <div @click="currentTool = 'SinglePixel'" class="squareButton">▪︎ Pixel</div>
-      <hr>
-      <div @click="currentTool = 'PixelBrush'" class="squareButton">◼︎ Square</div>
-      <input type="number" value="3" v-model="pixelBrushSize" style="width: 100%">
-      <hr>
-      <div @click="currentTool = 'PixelFill'" class="squareButton">◼︎ FILL</div>
-      <input type="number" value="8" v-model="pixelFillSize" style="width: 100%">
-      <hr>
-      <hr>
-      <div @click="nextCleanupPixel = true" class="squareButton">Cleanup</div>
-      <!--<input type="color" value="#ff0000">-->
-    </div>
-    <vue-p5 @setup="setup"
-            @draw="draw"
-            @keypressed="keypressed"
-            @mousedragged="mousedragged"
-            @mouseReleased="mouseReleased"></vue-p5>
-    <div class="colorBars">
-      <div v-for="(item) in imageData" :key="item.color" class="colorBarWrapper">
-        <div @click="currentBrushColor = item.colorVal" v-bind:style="{ background: item.color, width: item.percent + '%'}" class="colorBar">
-          <p>{{item.val}}({{item.percent}}%)<br>{{item.color}}</p>
-        </div>
-        <!--{{ val[0].split(";") }}-->
-      </div>
-    </div>
-    <img src="../assets/IMG_7814.jpeg" style="display: none" id="defaultimg">
-  </div>
+<template lang="pug">
+  .home
+    vue-p5(@setup='imgSetup' @draw='imgDraw')
+    .colorBars
+      #uploadHolder
+      hr
+      p Posterize:
+        input(type='number' value='3' v-model='posterizeVal' style='width: 35px')
+      hr
+      .squareButton(@click='didComputePixel = false') ↺ Update Pixels
+      hr
+      .colorBarWrapper(v-for='(item) in imageDataSoll' :key='item.color')
+        .colorBar(@click='currentBrushColor = item.colorVal' v-bind:style="{ background: item.color, width: item.percent + '%'}")
+          p
+            | {{item.val}}({{item.percent}}%)
+            br
+            | {{item.color}}
+    .paintControllBar
+      .squareButton(v-bind:style="{background: 'rgb(' + this.currentBrushColor.join() + ')'}") Color
+      .squareButton(v-on:click='setToRandomNewColor()' v-bind:style="{background: 'rgb(' + this.currentBrushColor.join() + ')'}") random color
+      hr
+      .squareButton(@click='currentBrushColor = [255,255,255]') 😤 Eraser
+      hr
+      .squareButton(@click="currentTool = 'Brush'") ◉ Brush
+      input(type='range' v-model='strokeWidth')
+      br
+      hr
+      .squareButton(@click="currentTool = 'SinglePixel'") ▪︎ Pixel
+      hr
+      .squareButton(@click="currentTool = 'PixelBrush'") ◼︎ Square
+      input(type='range' value='3' v-model='pixelBrushSize' style='width: 100%')
+      hr
+      .squareButton(@click="currentTool = 'PixelFill'") ◼︎ FILL
+      input(type='range' value='8' max="60" v-model='pixelFillSize' style='width: 100%')
+      hr
+      p Tool: {{currentTool}}
+      hr
+      .squareButton(@click='nextCleanupPixel = true') 🧙‍♂️✨🔮 Cleanup
+    vue-p5(@setup='setup' @draw='draw' @keypressed='keypressed' @mousedragged='mousedragged' @mousereleased='mouseReleased')
+    .colorBars
+      .colorBarWrapper(v-for='(item) in imageData' :key='item.color')
+        .colorBar(@click='currentBrushColor = item.colorVal' v-bind:style="{ background: item.color, width: item.percent + '%'}")
+          p
+            | {{item.val}}({{item.percent}}%)
+            br
+            | {{item.color}}
+        // {{ val[0].split(";") }}
+    img#defaultimg(src='../assets/IMG_7814.jpeg' style='display: none')
 </template>
 
 <script>
