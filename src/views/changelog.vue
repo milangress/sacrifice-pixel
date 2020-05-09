@@ -4,6 +4,10 @@
         a(href="https://sacrifice.now.sh/") sacrifice.now.sh
         h1 Log
         section
+            h2 Cleanup and Camera input
+            p sacrifice the pixels from your webcam
+            a(href="https://sacrifice-910xoewqh.now.sh/") sacrifice-910xoewqh.now.sh
+        section
             h2 Tools
             p New tools and (slightly) cleaner code 👯‍♀️
             a(href="https://sacrifice-qnuta6hvd.now.sh") sacrifice-qnuta6hvd.now.sh
