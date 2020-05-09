@@ -58,6 +58,7 @@ let img;
 let pixelSoll = {}
 let pixelIst = {}
 let pixelCounter = {}
+let capture;
 
 export default {
   name: 'Home',
@@ -103,17 +104,23 @@ export default {
       input.parent('uploadHolder')
       img = sk.createImg('https://i.imgur.com/JL0k7sL.jpg', 'anonymous', '');
       img.hide();
+      capture = sk.createCapture(sk.VIDEO);
+      capture.size(this.width, this.height);
+      capture.hide();
     },
     imgDraw: function (sk) {
       //sk.background(255);
       if (img) {
         sk.image(img, 0, 0, sk.width, sk.height);
+      }
+      if (capture) {
+          sk.image(capture, 0, 0, sk.width, sk.height);
+      }
         sk.filter(sk.POSTERIZE, this.posterizeVal)
         if (!this.didComputePixel) {
-          this.getPixelArray(sk)
-          this.didComputePixel = true;
+            this.getPixelArray(sk)
+            this.didComputePixel = true;
         }
-      }
     },
     update: function () {
       this.nextComputePixel = true
