@@ -4,6 +4,9 @@
     .colorBars
       #uploadHolder
       hr
+      input(type='checkbox' v-model='showWebcam')#showWebcam
+      label(for='showWebcam') Show Webcam
+      hr
       p Posterize:
         input(type='number' value='3' v-model='posterizeVal' style='width: 35px')
       hr
@@ -78,7 +81,8 @@ export default {
         pixelFillSize: 8,
         didComputePixel: false,
         nextCleanupPixel: false,
-        autoCleanupPixel: false
+        autoCleanupPixel: false,
+        showWebcam: false
       }
     },
   mounted() {
@@ -113,7 +117,7 @@ export default {
       if (img) {
         sk.image(img, 0, 0, sk.width, sk.height);
       }
-      if (capture) {
+      if (capture && this.showWebcam) {
           sk.image(capture, 0, 0, sk.width, sk.height);
       }
         sk.filter(sk.POSTERIZE, this.posterizeVal)
