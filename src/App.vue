@@ -14,6 +14,12 @@
   body {
     background: #e0e0e0;
   }
+  * {
+    box-sizing: border-box;
+  }
+  .p5Canvas {
+    cursor: crosshair;
+  }
 #app {
   font-family: "Arial Narrow", Arial;
   font-weight: bold;

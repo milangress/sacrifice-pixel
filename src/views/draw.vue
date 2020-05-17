@@ -109,7 +109,7 @@
                             for (let j = 0; j < this.tool.pixelFillSize; j++) {
                                 const color = sk.get(sk.mouseX + i, sk.mouseY + j)
                                 console.log(color)
-                                if (color[0] >= 250 && color[1] >= 250 && color[2] >= 250) {
+                                if (color[0] > 250 && color[1] > 250 && color[2] > 250) {
                                     sk.set(sk.mouseX + i, sk.mouseY + j, [...this.tool.color, 255])
                                 }
                             }
