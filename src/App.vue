@@ -2,6 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Sacrifice Your Pixels</router-link> |
+      <router-link to="/v1">(Old Version)</router-link> |
       <router-link to="/manual">Manual</router-link> |
       <router-link to="/changelog">Changes</router-link>
     </div>
