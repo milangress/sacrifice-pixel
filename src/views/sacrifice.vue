@@ -13,6 +13,7 @@
 
 <script>
 import VueP5 from 'vue-p5';
+import router from "../router"
 let capture;
 let pixelSoll;
     export default {
@@ -39,6 +40,8 @@ let pixelSoll;
             },
             commitPixels: function () {
                 this.$store.commit('updatePixels', pixelSoll)
+                this.turnWebcamOff()
+                router.push({ path: 'draw' })
             },
             setup: function (sk) {
                 sk.createCanvas(this.width, this.height);
