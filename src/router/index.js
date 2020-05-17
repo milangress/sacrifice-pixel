@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import changelog from "../views/changelog"
 import manual from "../views/manual"
 import sacrifice from "../views/sacrifice"
+import draw from "../views/draw"
 
 Vue.use(VueRouter)
 
@@ -17,6 +18,11 @@ Vue.use(VueRouter)
       path: '/sacrifice',
       name: 'sacrifice',
       component: sacrifice
+    },
+    {
+      path: '/draw',
+      name: 'draw',
+      component: draw
     },
     {
       path: '/changelog',
