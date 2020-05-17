@@ -119,6 +119,7 @@ export default {
       }
       if (capture && this.showWebcam) {
           sk.image(capture, 0, 0, sk.width, sk.height);
+          console.log(capture)
       }
         sk.filter(sk.POSTERIZE, this.posterizeVal)
         if (!this.didComputePixel) {

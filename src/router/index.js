@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import changelog from "../views/changelog"
 import manual from "../views/manual"
+import sacrifice from "../views/sacrifice"
 
 Vue.use(VueRouter)
 
@@ -12,6 +13,11 @@ Vue.use(VueRouter)
     name: 'Home',
     component: Home
   },
+    {
+      path: '/sacrifice',
+      name: 'sacrifice',
+      component: sacrifice
+    },
     {
       path: '/changelog',
       name: 'Changelog',
