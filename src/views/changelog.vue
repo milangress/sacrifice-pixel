@@ -4,6 +4,10 @@
         a(href="https://sacrifice.now.sh/") sacrifice.now.sh
         h1 Log
         section
+            h2 split into sacrifice & draw pages
+            p dedicated page for webcam with shared state. -> So I can turn of the webcam and allow browser navigation & eventually make intro page
+            a(href="https://sacrifice-m3d9cc607.now.sh/sacrifice") sacrifice-m3d9cc607.now.sh/sacrifice
+        section
             h2 Cleanup and Camera input
             p sacrifice the pixels from your webcam
             a(href="https://sacrifice-910xoewqh.now.sh/") sacrifice-910xoewqh.now.sh
