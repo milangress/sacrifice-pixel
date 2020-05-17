@@ -11,6 +11,9 @@
 </template>
 
 <style>
+  body {
+    background: #e0e0e0;
+  }
 #app {
   font-family: "Arial Narrow", Arial;
   font-weight: bold;

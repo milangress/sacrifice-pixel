@@ -58,8 +58,11 @@
             }
         },
         mounted() {
-            setTimeout(this.veryHackyCanvasScaler, 1000)
-            this.tool.color = this.imageData[0].colorVal
+            setTimeout(() => {
+                this.veryHackyCanvasScaler()
+                this.tool.color = this.imageData[0].colorVal
+            }, 1000)
+
         },
         methods: {
             setup(sk) {
@@ -69,7 +72,6 @@
             },
             draw(sk) {
                 if (!this.nextComputePixel) {
-                    //this.roundPixels(sk)
                     this.computePixels(sk)
                     this.nextComputePixel = false
                 }
@@ -146,7 +148,7 @@
                 //let pixels = this.sortedPixels(pixelDiff)
                 //pixelIst = pixels
                 let entries = Object.entries(pixelDiff)
-                let sorted = entries.sort((a, b) => b[1] - a[1])
+                let sorted = entries.sort((a, b) => b[1] - a[1]).filter(col => col[1] > 0)
                 let object = sorted.map(pixelVal => {
                     let color = pixelVal[0].split("-")
                     return {
@@ -194,4 +196,30 @@
 <style scoped lang="stylus">
     .home
         display flex
+        justify-content space-around
+    .colorBars
+        margin-left: 0
+        margin-right: 0
+        background: darkgray
+        padding: 1rem
+        width: 20vw
+        height: 650px
+        overflow: scroll
+    .colorBar
+        text-align: left
+        color: white
+        padding: 0.1rem
+    .paintControllBar
+        min-width 2rem
+        margin 0 2rem
+        height 650px
+        padding 1rem
+    .squareButton
+        padding: 0.25rem
+        margin: 0.25rem
+        text-align: center
+        outline: black 1px solid
+    .squareButton:hover
+        color: white
+        background: darkgray
 </style>

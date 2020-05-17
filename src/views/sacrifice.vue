@@ -1,6 +1,13 @@
 <template lang="pug">
     .sacrificeWrapper
-        vue-p5(@setup='setup' @draw='draw' @mousepressed="startStop")
+        .controll
+            p Posterize:
+                input(type='number' value='3' v-model='posterizeVal' style='width: 35px')
+            hr
+            button(@click="startStop") Start/Stop
+            hr
+            button(@click="commitPixels") commit Pixel
+        vue-p5(@setup='setup' @draw='draw')
         .colorBars
             .colorBarWrapper(v-for='(item) in imageData' :key='item.color')
                 .colorBar(v-bind:style="{ background: item.color, width: item.percent + '%'}")
@@ -8,7 +15,6 @@
                         | {{item.val}}({{item.percent}}%)
                         br
                         | {{item.color}}
-        div(@click="commitPixels") commit Pixel
 </template>
 
 <script>
@@ -23,6 +29,7 @@ let pixelSoll;
             return {
                 imageData: [{ "color": "rgb(0,128,0)", "val": 259188 }],
                 isRunning: true,
+                posterizeVal: 3,
             }
         },
         mounted() {
@@ -55,6 +62,7 @@ let pixelSoll;
                 if (capture) {
                     sk.image(capture, 0, 0, sk.width, sk.height);
                 }
+                sk.filter(sk.POSTERIZE, this.posterizeVal)
                 this.getPixelArray(sk)
             },
             turnWebcamOff: function () {
@@ -122,11 +130,14 @@ let pixelSoll;
 <style scoped lang="stylus">
     .sacrificeWrapper
         display flex
-        cursor wait
+        justify-content space-around
+    .sacrificeWrapper>*
+        box-shadow 12px 12px 24px 0 rgba(0, 0, 0, 0.2),
+                -12px -12px 24px 0 rgba(255, 255, 255, 0.5)
     .colorBars
         margin-left 0
         margin-right 0
-        outline 1px solid black
+        //outline 1px solid black
         background darkgray
         padding 1rem
         width 20vw
