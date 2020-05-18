@@ -18,7 +18,8 @@
             .squareButton(@click='nextCleanupPixel = true') 🧙‍♂️✨🔮 Cleanup
         vue-p5(@setup='setup'
             @draw='draw'
-            @mousedragged='mousedragged')
+            @mousedragged='mousedragged'
+            @mousereleased="mouseReleased")
         .colorBars
             .colorBar(v-bind:style="{ background: colorRemaining.color, width: colorRemaining.percent + '%'}")
                 p
@@ -80,26 +81,30 @@
                     this.nextCleanupPixel = false
                 }
             },
+            mouseReleased(sk) {
+                this.killOverflowingPixels(sk)
+            },
             mousedragged(sk) {
+                const colorRGBA = [...this.tool.color, 255]
                 switch (this.tool.currentTool) {
                     case "Brush":
                         sk.line(sk.pmouseX, sk.pmouseY, sk.mouseX, sk.mouseY)
                         break;
                     case "SinglePixel":
-                        sk.set(sk.mouseX, sk.mouseY, [...this.tool.color, 255])
+                        sk.set(sk.mouseX, sk.mouseY, colorRGBA)
                         sk.updatePixels()
                         break;
                     case "TwoByTwoPixel":
-                        sk.set(sk.mouseX, sk.mouseY, [...this.tool.color, 255])
-                        sk.set(sk.mouseX, sk.mouseY + 1, [...this.tool.color, 255])
-                        sk.set(sk.mouseX + 1, sk.mouseY, [...this.tool.color, 255])
-                        sk.set(sk.mouseX + 1, sk.mouseY + 1, [...this.tool.color, 255])
+                        sk.set(sk.mouseX, sk.mouseY, colorRGBA)
+                        sk.set(sk.mouseX, sk.mouseY + 1, colorRGBA)
+                        sk.set(sk.mouseX + 1, sk.mouseY, colorRGBA)
+                        sk.set(sk.mouseX + 1, sk.mouseY + 1, colorRGBA)
                         sk.updatePixels()
                         break;
                     case "PixelBrush":
                         for (let i = 0; i < this.tool.pixelBrushSize; i++) {
                             for (let j = 0; j < this.tool.pixelBrushSize; j++) {
-                                sk.set(sk.mouseX + i, sk.mouseY + j, [...this.tool.color, 255])
+                                sk.set(sk.mouseX + i - (this.tool.pixelBrushSize / 2), sk.mouseY + j - (this.tool.pixelBrushSize / 2), colorRGBA)
                             }
                         }
                         sk.updatePixels()
@@ -107,10 +112,10 @@
                     case "PixelFill":
                         for (let i = 0; i < this.tool.pixelFillSize; i++) {
                             for (let j = 0; j < this.tool.pixelFillSize; j++) {
-                                const color = sk.get(sk.mouseX + i, sk.mouseY + j)
-                                console.log(color)
+                                const color = sk.get(sk.mouseX + i - (this.tool.pixelFillSize / 2), sk.mouseY + j - (this.tool.pixelFillSize / 2))
+                                //console.log(color)
                                 if (color[0] > 250 && color[1] > 250 && color[2] > 250) {
-                                    sk.set(sk.mouseX + i, sk.mouseY + j, [...this.tool.color, 255])
+                                    sk.set(sk.mouseX + i - (this.tool.pixelFillSize / 2), sk.mouseY + j - (this.tool.pixelFillSize / 2), colorRGBA)
                                 }
                             }
                         }
@@ -133,7 +138,7 @@
                     }
                 }
                 const currentColorString = this.tool.color.join("-")
-                if (pixelDiff[currentColorString] <= 0) {
+                if (pixelDiff[currentColorString] <= 0 && this.imageData.length >= 1) {
                     this.tool.color = this.imageData[0].colorVal
                 } else {
                     this.colorRemaining = {
@@ -160,6 +165,26 @@
                 })
                 //let shortend = object.filter(color => color.percent > 0.5)
                 this.imageData = object
+            },
+            killOverflowingPixels(sk) {
+                sk.loadPixels();
+                let pixelDiff = Object.assign({}, this.sacrificedPixels)
+                for (let y = 0; y < sk.height; y++) {
+                    for (let x = 0; x < sk.width; x++) {
+                        const index = (x + y * sk.width) * 4
+                        const pixelString = `${sk.pixels[index + 0]}-${sk.pixels[index + 1]}-${sk.pixels[index + 2]}`
+                        if (pixelDiff[pixelString]) {
+                            pixelDiff[pixelString] = pixelDiff[pixelString] - 1
+                        }
+                        if (pixelDiff[pixelString] <= 0) {
+                            sk.pixels[index + 0] = 255
+                            sk.pixels[index + 1] = 255
+                            sk.pixels[index + 2] = 255
+                        }
+                        //pixeldata.push(pixelString)
+                    }
+                }
+                sk.updatePixels()
             },
             veryHackyCanvasScaler: function () {
                 const theP5Canvases = document.getElementsByClassName("p5Canvas")

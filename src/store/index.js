@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    width: 325,
+    width: 250,
     height: 325,
     pixels: {
       '0-0-0': 20000,

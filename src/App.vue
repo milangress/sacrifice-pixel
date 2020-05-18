@@ -19,6 +19,8 @@
   }
   .p5Canvas {
     cursor: crosshair;
+    box-shadow: 12px 12px 24px 0 rgba(0, 0, 0, 0.2),
+                -12px -12px 24px 0 rgba(255, 255, 255, 0.5);
   }
 #app {
   font-family: "Arial Narrow", Arial;

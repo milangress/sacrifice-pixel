@@ -2,7 +2,7 @@
     .sacrificeWrapper
         .controll
             p Posterize:
-                input(type='number' value='3' v-model='posterizeVal' style='width: 35px')
+                input(type='number' v-model='posterizeVal' style='width: 35px')
             hr
             button(@click="startStop") Start/Stop
             hr
@@ -29,7 +29,7 @@ let pixelSoll;
             return {
                 imageData: [{ "color": "rgb(0,128,0)", "val": 259188 }],
                 isRunning: true,
-                posterizeVal: 3,
+                posterizeVal: 12,
             }
         },
         mounted() {
@@ -128,6 +128,8 @@ let pixelSoll;
 </script>
 
 <style scoped lang="stylus">
+    .controll
+        padding 1rem
     .sacrificeWrapper
         display flex
         justify-content space-around
