@@ -4,6 +4,10 @@
         a(href="https://sacrifice.now.sh/") sacrifice.now.sh
         h1 Log
         section
+            h2 performance
+            p everything runs much faster! cleanup happens now on every mouse release
+            a(href="https://sacrifice-pjwfn89np.now.sh") sacrifice-pjwfn89np.now.sh
+        section
             h2 draw pages
             p dedicated page for drawing. Color switch like "ink" that runs out
             a(href="https://sacrifice-knzpoxvq5.now.sh/draw") sacrifice-knzpoxvq5.now.sh/draw
