@@ -153,7 +153,7 @@
                 //let pixels = this.sortedPixels(pixelDiff)
                 //pixelIst = pixels
                 let entries = Object.entries(pixelDiff)
-                let sorted = entries.sort((a, b) => b[1] - a[1]).filter(col => col[1] > 0)
+                let sorted = entries.sort((a, b) => b[1] - a[1]).filter(col => col[1] > 1)
                 let object = sorted.map(pixelVal => {
                     let color = pixelVal[0].split("-")
                     return {
