@@ -131,11 +131,13 @@ let pixelSoll;
     .controll
         padding 1rem
     .sacrificeWrapper
+        font-size 1rem
         display flex
-        justify-content space-around
+        justify-content space-evenly
     .sacrificeWrapper>*
         box-shadow 12px 12px 24px 0 rgba(0, 0, 0, 0.2),
                 -12px -12px 24px 0 rgba(255, 255, 255, 0.5)
+        background darkgray
     .colorBars
         margin-left 0
         margin-right 0

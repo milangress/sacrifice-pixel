@@ -1,18 +1,39 @@
-<template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Sacrifice Your Pixels</router-link> |
-      <router-link to="/v1">(Old Version)</router-link> |
-      <router-link to="/manual">Manual</router-link> |
-      <router-link to="/changelog">Changes</router-link>
-    </div>
-    <router-view/>
-  </div>
+<template lang="pug">
+  #app
+    #flowNav
+      router-link(to="/")
+        | (
+        span.serif 1
+        | ) &nbsp;
+      router-link(to="/sacrifice")
+        | (
+        span.serif 2
+        | ) &nbsp;
+      router-link(to="/draw")
+        | (
+        span.serif 3
+        | ) &nbsp;
+      router-link(to="/image")
+        | (
+        span.serif 4
+        | ) &nbsp;
+    .fixedBackground
+      h1 Sacrifice Pixel (2020)
+      p Every 👏 Pixel 👏 is 👏 Sacred! Here comes a text about how in the physical world sacrificing an especially composting are essential… tun on webcam… etc…
+      router-link(to="/sacrifice") GO composte Your Face
+    //#nav
+      router-link(to="/") Start
+      router-link(to="/v1") (Old Version)
+      router-link(to="/manual") Manual
+      router-link(to="/changelog") Changes
+    transition(name="slide" mode="out-in")
+      router-view
 </template>
 
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
   body {
-    background: #e0e0e0;
+    background: rgb(150, 150, 150);
   }
   * {
     box-sizing: border-box;
@@ -23,13 +44,24 @@
                 -12px -12px 24px 0 rgba(255, 255, 255, 0.5);
   }
 #app {
-  font-family: "Arial Narrow", Arial;
-  font-weight: bold;
+  font-family: "ArialNarrow", ArialNarrow, Arial;
+  font-weight: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
-  color: #2c3e50;
+  color: #ffffff;
   padding: 30px;
+  font-size: 3rem;
+}
+h1, h2, h3, h4 {
+  font-size: 3rem;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.fixedBackground {
+  position: fixed;
+  z-index: -50;
 }
 
 #nav {
@@ -37,11 +69,38 @@
 }
 
 #nav a {
-  font-weight: bold;
-  color: #2c3e50;
+  color: #000;
 }
+  a:visited {
+    color: #000;
+  }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #ff0000;
 }
+#flowNav a {
+  text-decoration: none;
+}
+  #flowNav a.router-link-exact-active {
+    color: #ff0000;
+  }
+
+  .serif {
+    display: inline-block;
+    font-family: "Times New Roman";
+    transform: scale(1,1.4);
+  }
+
+  .slide-enter-active,
+  .slide-leave-active {
+    transition-duration: 0.3s;
+    transition-property: transform;
+    transition-timing-function: ease;
+  }
+
+  .slide-enter,
+  .slide-leave-active {
+    opacity: 0;
+    transform: translateX(100%);
+  }
 </style>

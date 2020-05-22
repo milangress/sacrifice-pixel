@@ -220,6 +220,7 @@
 
 <style scoped lang="stylus">
     .home
+        font-size 1rem
         display flex
         justify-content space-around
     .colorBars
@@ -235,6 +236,7 @@
         color: white
         padding: 0.1rem
     .paintControllBar
+        background darkgray
         min-width 2rem
         margin 0 2rem
         height 650px
