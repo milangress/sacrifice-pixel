@@ -19,7 +19,7 @@
         | ) &nbsp;
     .fixedBackground
       h1 Sacrifice Pixel (2020)
-      p Every 👏 Pixel 👏 is 👏 Sacred! Here comes a text about how in the physical world sacrificing an especially composting are essential… tun on webcam… etc…
+      p Every 👏 Pixel 👏 is 👏 Sacred! Here comes a text about how in the physical world sacrificing and especially composting are essential… tun on webcam… etc…
       router-link(to="/sacrifice") GO composte Your Face
     //#nav
       router-link(to="/") Start
