@@ -248,5 +248,5 @@
         outline: black 1px solid
     .squareButton:hover
         color: white
-        background: darkgray
+        background: black
 </style>

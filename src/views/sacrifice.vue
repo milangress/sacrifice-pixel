@@ -29,7 +29,7 @@ let pixelSoll;
             return {
                 imageData: [{ "color": "rgb(0,128,0)", "val": 259188 }],
                 isRunning: true,
-                posterizeVal: 12,
+                posterizeVal: 5,
             }
         },
         mounted() {
