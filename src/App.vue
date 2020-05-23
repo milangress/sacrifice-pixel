@@ -17,7 +17,7 @@
         | (
         span.serif 4
         | ) &nbsp;
-    .fixedBackground
+    //.fixedBackground
       h1 Sacrifice Pixel (2020)
       p Every 👏 Pixel 👏 is 👏 Sacred! Here comes a text about how in the physical world sacrificing and especially composting are essential… tun on webcam… etc…
       router-link(to="/sacrifice") GO composte Your Face
@@ -68,10 +68,8 @@ h1, h2, h3, h4 {
   padding-bottom: 30px;
 }
 
-#nav a {
-  color: #000;
-}
-  a:visited {
+
+  a, a:visited {
     color: #000;
   }
 
@@ -89,6 +87,14 @@ h1, h2, h3, h4 {
     display: inline-block;
     font-family: "Times New Roman";
     transform: scale(1,1.4);
+  }
+
+  .window {
+      border: white 2px solid;
+      border-radius: 0.5rem;
+      width: 16rem;
+      background: black;
+      box-shadow: 0px 0px 14px 0 rgba(255, 255, 255, 0.8);
   }
 
   .slide-enter-active,

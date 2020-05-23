@@ -1,6 +1,6 @@
 <template lang="pug">
     .sacrificeWrapper
-        .controll
+        .controll.window
             p Posterize:
                 input(type='number' v-model='posterizeVal' style='width: 35px')
             hr
@@ -8,13 +8,12 @@
             hr
             button(@click="commitPixels") commit Pixel
         vue-p5(@setup='setup' @draw='draw')
-        .colorBars
+        .colorBars.window
             .colorBarWrapper(v-for='(item) in imageData' :key='item.color')
                 .colorBar(v-bind:style="{ background: item.color, width: item.percent + '%'}")
-                    p
-                        | {{item.val}}({{item.percent}}%)
-                        br
-                        | {{item.color}}
+                p
+                    | {{item.val}}
+                    span.info ({{item.percent}}%) {{item.color}}
 </template>
 
 <script>
@@ -137,18 +136,21 @@ let pixelSoll;
     .sacrificeWrapper>*
         box-shadow 12px 12px 24px 0 rgba(0, 0, 0, 0.2),
                 -12px -12px 24px 0 rgba(255, 255, 255, 0.5)
-        background darkgray
     .colorBars
         margin-left 0
         margin-right 0
         //outline 1px solid black
-        background darkgray
         padding 1rem
         width 20vw
         height 650px
         overflow scroll
+    .colorBars p
+        margin-top 0.1rem
+    .colorBars .info
+        color lightgray
     .colorBar
         text-align left
         color white
         padding 0.1rem
+        min-height 2rem
 </style>

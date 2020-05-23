@@ -1,6 +1,6 @@
 <template lang="pug">
     .home
-        .paintControllBar
+        .paintControllBar.window
             .squareButton(v-bind:style="{background: 'rgb(' + this.tool.color.join() + ')'}") Color
             hr
             .squareButton(@click='tool.color = [255,255,255]') 😤 Eraser
@@ -20,19 +20,18 @@
             @draw='draw'
             @mousedragged='mousedragged'
             @mousereleased="mouseReleased")
-        .colorBars
+        .colorBars.window
             .colorBar(v-bind:style="{ background: colorRemaining.color, width: colorRemaining.percent + '%'}")
-                p
-                    | {{colorRemaining.val}}({{colorRemaining.percent}}%)
-                    br
-                    | {{colorRemaining.color}}
+            p
+                | {{colorRemaining.val}} ({{colorRemaining.percent}}%)
+                br
+                | {{colorRemaining.color}}
             hr
-            .colorBarWrapper(v-for='(item) in imageData' :key='item.color')
-                .colorBar(@click='tool.color = item.colorVal' v-bind:style="{ background: item.color, width: item.percent + '%'}")
-                    p
-                        | {{item.val}}({{item.percent}}%)
-                        br
-                        | {{item.color}}
+            .colorBarWrapper(v-for='(item) in imageData' :key='item.color' @click='tool.color = item.colorVal')
+                .colorBar(v-bind:style="{ background: item.color, width: item.percent + '%'}")
+                p
+                    | {{item.val}}
+                    span.info ({{item.percent}}%) {{item.color}}
 </template>
 
 <script>
@@ -226,17 +225,20 @@
     .colorBars
         margin-left: 0
         margin-right: 0
-        background: darkgray
         padding: 1rem
         width: 20vw
         height: 650px
         overflow: scroll
+    .colorBars p
+        margin-top 0.1rem
+    .colorBars .info
+        color lightgray
     .colorBar
         text-align: left
         color: white
         padding: 0.1rem
+        min-height 2rem
     .paintControllBar
-        background darkgray
         min-width 2rem
         margin 0 2rem
         height 650px
@@ -245,8 +247,8 @@
         padding: 0.25rem
         margin: 0.25rem
         text-align: center
-        outline: black 1px solid
+        outline: white 1px solid
     .squareButton:hover
-        color: white
-        background: black
+        color: black
+        background: white
 </style>
