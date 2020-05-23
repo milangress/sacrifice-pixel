@@ -4,6 +4,10 @@
         a(href="https://sacrifice.now.sh/") sacrifice.now.sh
         h1 Log
         section
+            h2 styles
+            p first try of visually cleaning up and making flow clear
+            a(href="https://sacrifice-q1b6cwcc8.now.sh/") sacrifice-q1b6cwcc8.now.sh
+        section
             h2 performance
             p everything runs much faster! cleanup happens now on every mouse release
             a(href="https://sacrifice-pjwfn89np.now.sh") sacrifice-pjwfn89np.now.sh
