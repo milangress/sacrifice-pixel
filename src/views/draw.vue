@@ -1,37 +1,42 @@
 <template lang="pug">
     .home
-        .paintControllBar.window
-            .squareButton(v-bind:style="{background: 'rgb(' + this.tool.color.join() + ')'}") Color
-            hr
-            .squareButton(@click='tool.color = [255,255,255]') 😤 Eraser
-            hr
-            .squareButton(@click="tool.currentTool = 'SinglePixel'") ▪︎ Pixel
-            hr
-            .squareButton(@click="tool.currentTool = 'PixelBrush'") ◼︎ Square
-            input(type='range' value='3' v-model='tool.pixelBrushSize' style='width: 100%')
-            hr
-            .squareButton(@click="tool.currentTool = 'PixelFill'") ◼︎ FILL
-            input(type='range' value='8' max="60" v-model='tool.pixelFillSize' style='width: 100%')
-            hr
-            p Tool: {{tool.currentTool}}
-            hr
-            .squareButton(@click='nextCleanupPixel = true') 🧙‍♂️✨🔮 Cleanup
-        vue-p5(@setup='setup'
-            @draw='draw'
-            @mousedragged='mousedragged'
-            @mousereleased="mouseReleased")
-        .colorBars.window
-            .colorBar(v-bind:style="{ background: colorRemaining.color, width: colorRemaining.percent + '%'}")
-            p
-                | {{colorRemaining.val}} ({{colorRemaining.percent}}%)
-                br
-                | {{colorRemaining.color}}
-            hr
-            .colorBarWrapper(v-for='(item) in imageData' :key='item.color' @click='tool.color = item.colorVal')
-                .colorBar(v-bind:style="{ background: item.color, width: item.percent + '%'}")
+        .controll Tools: &nbsp;
+            .button(@click='tool.color = [255,255,255]') 😤 Eraser
+            .button(@click="tool.currentTool = 'SinglePixel'") ▪︎ Pixel
+            br
+            .button(@click="tool.currentTool = 'PixelBrush'") ◼︎ Square
+            .sliderContainer
+                input(type='range' value='3' v-model='tool.pixelBrushSize' style='width: 200px')
+            .button(@click="tool.currentTool = 'PixelFill'") ◼︎ FILL
+            .sliderContainer
+                input(type='range' value='8' max="60" v-model='tool.pixelFillSize' style='width: 200px')
+            br
+            .sliderContainer {{tool.currentTool}}
+            .button(@click='nextCleanupPixel = true') 🧙‍♂️✨🔮 Cleanup
+            .button Share ➡︎
+            br
+            .sliderContainer(v-bind:style="{background: 'rgb(' + this.tool.color.join() + ')'}") {{colorRemaining.val}} Pixel in color: {{colorRemaining.color}} left (≈{{colorRemaining.percent}}%)
+        .canvasWrapper
+            vue-p5(@setup='setup'
+                @draw='draw'
+                @mousedragged='mousedragged'
+                @mousereleased="mouseReleased")
+            //.colorBars.window
+                .colorBar(v-bind:style="{ background: colorRemaining.color, width: colorRemaining.percent + '%'}")
                 p
-                    | {{item.val}}
-                    span.info ({{item.percent}}%) {{item.color}}
+                    | {{colorRemaining.val}} ({{colorRemaining.percent}}%)
+                    br
+                    | {{colorRemaining.color}}
+                hr
+                .colorBarWrapper(v-for='(item) in imageData' :key='item.color' @click='tool.color = item.colorVal')
+                    .colorBar(v-bind:style="{ background: item.color, width: item.percent + '%'}")
+                    p
+                        | {{item.val}}
+                        span.info ({{item.percent}}%) {{item.color}}
+        .controll Choose you Pixel: &nbsp;
+            .button(v-for='(item) in imageData' :key='item.color'
+                @click='tool.color = item.colorVal'
+                v-bind:style="{ background: item.color}") {{item.val}} Pixel
 </template>
 
 <script>
@@ -218,10 +223,6 @@
 </script>
 
 <style scoped lang="stylus">
-    .home
-        font-size 1rem
-        display flex
-        justify-content space-around
     .colorBars
         margin-left: 0
         margin-right: 0

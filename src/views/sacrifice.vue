@@ -1,19 +1,18 @@
 <template lang="pug">
     .sacrificeWrapper
-        .controll.window
-            p Posterize:
-                input(type='number' v-model='posterizeVal' style='width: 35px')
-            hr
-            button(@click="startStop") Start/Stop
-            hr
-            button(@click="commitPixels") commit Pixel
-        vue-p5(@setup='setup' @draw='draw')
-        .colorBars.window
-            .colorBarWrapper(v-for='(item) in imageData' :key='item.color')
-                .colorBar(v-bind:style="{ background: item.color, width: item.percent + '%'}")
-                p
-                    | {{item.val}}
-                    span.info ({{item.percent}}%) {{item.color}}
+        .controll
+            div.sliderContainer Posterize:
+                input(type='range' value='5' min="2" max="12" v-model='posterizeVal' style='width: 150px')
+            div.button(@click="startStop") ⏸
+            div.button(@click="commitPixels") Compost 🙌 Pixel ➡︎
+        .canvasWrapper
+            vue-p5(@setup='setup' @draw='draw')
+            .colorBars.window
+                .colorBarWrapper(v-for='(item) in imageData' :key='item.color')
+                    .colorBar(v-bind:style="{ background: item.color, width: item.percent + '%'}")
+                    p
+                        | {{item.val}}
+                        span.info ({{item.percent}}%) {{item.color}}
 </template>
 
 <script>
@@ -127,13 +126,7 @@ let pixelSoll;
 </script>
 
 <style scoped lang="stylus">
-    .controll
-        padding 1rem
-    .sacrificeWrapper
-        font-size 1rem
-        display flex
-        justify-content space-evenly
-    .sacrificeWrapper>*
+    .canvasWrapper>*
         box-shadow 12px 12px 24px 0 rgba(0, 0, 0, 0.2),
                 -12px -12px 24px 0 rgba(255, 255, 255, 0.5)
     .colorBars
