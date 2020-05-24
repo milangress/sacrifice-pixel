@@ -106,11 +106,15 @@
       line-height 1.2em
       border-radius 10em
       white-space nowrap
+      user-select: none
   .button a
     color white
   .button:hover
       background white
       color black
+
+  .controll
+    user-select: none
 
   .sliderContainer
       background darkgray
