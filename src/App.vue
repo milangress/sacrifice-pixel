@@ -28,6 +28,11 @@
       router-link(to="/changelog") Changes
     transition(name="slide" mode="out-in")
       router-view
+    hr
+    #nav
+      router-link(to="/v1").button (Old Version)
+      router-link(to="/manual").button Manual
+      router-link(to="/changelog").button Changes
 </template>
 
 <style lang="stylus">
@@ -75,9 +80,10 @@
               color #ff0000
 
   a, a:visited
-      color #000
+      //color #000
 
   #flowNav
+      margin-bottom 2rem
       a
           text-decoration none
           &.router-link-exact-active
