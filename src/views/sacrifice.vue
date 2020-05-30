@@ -1,5 +1,5 @@
 <template lang="pug">
-    .sacrificeWrapper
+    .page
         .controll
             div.sliderContainer Posterize:
                 input(type='range' value='5' min="2" max="12" v-model='posterizeVal' style='width: 150px')

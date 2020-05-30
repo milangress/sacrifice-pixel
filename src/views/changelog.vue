@@ -1,5 +1,5 @@
 <template lang='pug'>
-    div.changelist
+    div.changelist.page
         p Current Deployment is always on:
         a(href="https://sacrifice.now.sh/") sacrifice.now.sh
         h1 Log

@@ -1,21 +1,23 @@
 <template lang="pug">
-    .home
+    .home.page.drawingWrapper
         .controll Tools: &nbsp;
             .button(@click='tool.color = [255,255,255]') 😤 Eraser
             .button(@click="tool.currentTool = 'SinglePixel'") ▪︎ Pixel
-            br
-            .button(@click="tool.currentTool = 'PixelBrush'") ◼︎ Square
-            .sliderContainer
+            //.button(@click="tool.currentTool = 'PixelBrush'") ◼︎ Square
+            //.sliderContainer
                 input(type='range' value='3' v-model='tool.pixelBrushSize' style='width: 200px')
             .button(@click="tool.currentTool = 'PixelFill'") ◼︎ FILL
             .sliderContainer
                 input(type='range' value='8' max="60" v-model='tool.pixelFillSize' style='width: 200px')
-            br
-            .sliderContainer {{tool.currentTool}}
-            .button(@click='nextCleanupPixel = true') 🧙‍♂️✨🔮 Cleanup
+            //br
+            //.sliderContainer {{tool.currentTool}}
+            //.button(@click='nextCleanupPixel = true') 🧙‍♂️✨🔮 Cleanup
             .button Share ➡︎
             br
-            .sliderContainer(v-bind:style="{background: 'rgb(' + this.tool.color.join() + ')'}") {{colorRemaining.val}} Pixel in color: {{colorRemaining.color}} left (≈{{colorRemaining.percent}}%)
+            .button Empty Pixel: {{emptyPixels}}
+
+            color-button(v-bind:color = "tool.color") {{colorRemaining.val}} Pixel in color: {{colorRemaining.color}}
+            color-button(v-bind:color = "tool.color") ≈{{colorRemaining.percent}}%
         .canvasWrapper
             vue-p5(@setup='setup'
                 @draw='draw'
@@ -34,23 +36,27 @@
                         | {{item.val}}
                         span.info ({{item.percent}}%) {{item.color}}
         .controll Choose you Pixel: &nbsp;
-            .button(v-for='(item) in imageData' :key='item.color'
-                @click='tool.color = item.colorVal'
-                v-bind:style="{ background: item.color}") {{item.val}} Pixel
+            color-button(v-for='(item) in imageData' :key='item.color'
+                @change-color='tool.color = item.colorVal'
+                v-bind:color = 'item.colorVal'
+                v-bind:selectedColor ="tool.color"
+                ) {{item.val}} Pixel
 </template>
 
 <script>
     import VueP5 from 'vue-p5'
+    import ColorButton from "../components/colorButton"
     export default {
         name: "draw",
-        components: {VueP5},
+        components: {ColorButton, VueP5},
         data: function () {
             return {
                 nextComputePixel: false,
                 nextCleanupPixel: false,
+                emptyPixels: 0,
                 tool: {
                     color: [0,120,0],
-                    currentTool: 'PixelBrush',
+                    currentTool: 'PixelFill',
                     pixelBrushSize: 3,
                     pixelFillSize: 8,
                 },
@@ -131,16 +137,20 @@
             computePixels(sk) {
                 sk.loadPixels();
                 let pixelDiff = Object.assign({}, this.sacrificedPixels)
+                let emptyPixels = 0
                 for (let y = 0; y < sk.height; y++) {
                     for (let x = 0; x < sk.width; x++) {
                         const index = (x + y * sk.width) * 4
                         const pixelString = `${sk.pixels[index + 0]}-${sk.pixels[index + 1]}-${sk.pixels[index + 2]}`
                         if (pixelDiff[pixelString]) {
                             pixelDiff[pixelString] = pixelDiff[pixelString] - 1
+                        } else if (pixelString === '255-255-255') {
+                            emptyPixels++
                         }
                         //pixeldata.push(pixelString)
                     }
                 }
+                this.emptyPixels = emptyPixels
                 const currentColorString = this.tool.color.join("-")
                 if (pixelDiff[currentColorString] <= 0 && this.imageData.length >= 1) {
                     this.tool.color = this.imageData[0].colorVal
@@ -223,6 +233,8 @@
 </script>
 
 <style scoped lang="stylus">
+    .drawingWrapper
+        //display flex
     .colorBars
         margin-left: 0
         margin-right: 0
@@ -252,4 +264,6 @@
     .squareButton:hover
         color: black
         background: white
+    .flip-list-move
+        transition: transform 1s
 </style>

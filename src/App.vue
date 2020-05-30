@@ -54,6 +54,12 @@
       font-size 1rem
       display flex
       justify-content space-evenly
+      float left
+
+  .page:after
+      content: ""
+      display: table
+      clear: both
   #app
       font-family "ArialNarrow", ArialNarrow, Arial
       font-weight normal
@@ -62,7 +68,7 @@
       text-align left
       color #ffffff
       padding 30px
-      font-size 3rem
+      font-size 2.5rem
 
   h1, h2, h3, h4
       font-size 3rem
@@ -101,6 +107,8 @@
       background black
       box-shadow 0px 0px 14px 0 rgba(255, 255, 255, 0.8)
 
+  .button
+      cursor pointer
   .button, .sliderContainer
       display inline-block
       padding 0.2rem 2rem
