@@ -1,6 +1,6 @@
 <template lang="pug">
   #app
-    #flowNav
+    //#flowNav
       router-link(to="/")
         | (
         span.serif 1
