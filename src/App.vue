@@ -30,10 +30,10 @@
       router-view
     hr
     #nav
-      router-link(to="/").button ♻️ Restart
-      router-link(to="/v1").button (Old Version)
-      router-link(to="/manual").button Manual
-      router-link(to="/changelog").button Changes
+      router-link(to="/").button.hop ♻️ Restart
+      //router-link(to="/v1").button.hop (Old Version)
+      router-link(to="/manual").button.hop Manual
+      router-link(to="/changelog").button.hop Changes
 </template>
 
 <style lang="stylus">
@@ -85,12 +85,14 @@
       padding-bottom 30px
       a
           &.router-link-exact-active
-              color #ff0000
+              //color #ff0000
 
   a, a:visited
-      //color #000
+      //color #fff
   .hop
-      transition transform ease 100ms
+      transition transform ease-in-out 60ms
+      -webkit-transform-style preserve-3d
+      -webkit-backface-visibility hidden
   .hop:hover
       transform scale(1.05)
 
@@ -127,8 +129,9 @@
       border-radius 10em
       white-space nowrap
       user-select: none
-  .button a
-    color white
+  a.button
+      color white
+      text-decoration none
   .button:hover
       background white
       color black

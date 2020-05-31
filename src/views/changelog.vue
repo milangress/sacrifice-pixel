@@ -4,6 +4,10 @@
         a(href="https://sacrifice.now.sh/") sacrifice.now.sh
         h1 Log
         section
+            h2 Interface
+            p loots of small interface improvements and named colors
+            a(href="https://sacrifice-lt9r3ljtc.now.sh/") sacrifice-lt9r3ljtc.now.sh/
+        section
             h2 Buttons & Layout
             p "smart" :) buttons and layout
             a(href="https://sacrifice-q900vsbby.now.sh/") sacrifice-q900vsbby.now.sh

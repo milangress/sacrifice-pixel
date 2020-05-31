@@ -45,4 +45,13 @@
 <style scoped lang="stylus">
     .active
         box-shadow 0px 0px 10px 8px rgba(255,255,255,0.9)
+    .active:after {
+        content: '';
+        top: -10px;
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        background: url('https://media.giphy.com/media/3ohhwBfx3ik9jIVTOM/giphy.gif') no-repeat center center;
+        background-size: contain;
+    }
 </style>
