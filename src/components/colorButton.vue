@@ -1,7 +1,7 @@
 <template lang="pug">
     div.button(
         v-bind:style="{ background: colorString, color: contrastColor}"
-        v-bind:class="{ active: isActive }"
+        v-bind:class="{ active: isActive, hop: isSelectable }"
         @click="$emit('change-color')"
         )
         slot
@@ -34,6 +34,9 @@
             },
             isActive: function () {
                 return this.color.join() === this.selectedColor.join()
+            },
+            isSelectable: function () {
+                return this.selectedColor.join() !== '300,300,300'
             }
         }
     }

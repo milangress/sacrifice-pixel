@@ -30,6 +30,7 @@
       router-view
     hr
     #nav
+      router-link(to="/").button ♻️ Restart
       router-link(to="/v1").button (Old Version)
       router-link(to="/manual").button Manual
       router-link(to="/changelog").button Changes
@@ -87,6 +88,10 @@
 
   a, a:visited
       //color #000
+  .hop
+      transition transform ease 100ms
+  .hop:hover
+      transform scale(1.03)
 
   #flowNav
       margin-bottom 2rem

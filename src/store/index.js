@@ -21,7 +21,10 @@ export default new Vuex.Store({
         state.pixels = n
       },
       newName (state, n) {
-        const randomName = uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals] }); // big_red_donkey
+        const randomName = uniqueNamesGenerator({
+          dictionaries: [adjectives, colors, animals],
+          separator: '-'
+        }); // big-red-donkey
         n ? state.name = n : state.name = randomName
       }
   },

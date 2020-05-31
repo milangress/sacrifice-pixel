@@ -4,7 +4,7 @@
             div.sliderContainer Posterize:
                 input(type='range' value='5' min="2" max="12" v-model='posterizeVal' style='width: 150px')
             div.button(@click="startStop") ⏸
-            div.button(@click="nextDownload = true") Compost 🙌 Pixel ➡︎
+            div.button(@click="nextDownload = true") Compost 🌱 Pixel ➡︎
         .canvasWrapper
             vue-p5(@setup='setup' @draw='draw')
             .colorBars.window
@@ -71,7 +71,7 @@ let pixelSoll;
             },
             turnWebcamOff: function () {
                 let stream = capture.elt.srcObject
-                stream.getTracks()[0].stop()
+                stream.getTracks().forEach(track => track.stop())
                 capture.stop()
             },
             veryHackyCanvasScaler: function () {

@@ -1,25 +1,32 @@
 <template lang="pug">
     .home.page.drawingWrapper
-        .controll Tools: &nbsp;
-            .button(@click='tool.color = [255,255,255]') 😤 Eraser
-            .button(@click="tool.currentTool = 'SinglePixel'") ▪︎ Pixel
+        .controll
+            span Tools: &nbsp;
+            //.button(@click='tool.color = [255,255,255]') 😤 Eraser
+            tool-button(
+                tool="SinglePixel"
+                v-bind:selectedTool = "tool.currentTool"
+                @change-tool = "tool.currentTool = 'SinglePixel'") ▪︎ 1 Pixel
             //.button(@click="tool.currentTool = 'PixelBrush'") ◼︎ Square
             //.sliderContainer
                 input(type='range' value='3' v-model='tool.pixelBrushSize' style='width: 200px')
-            .button(@click="tool.currentTool = 'PixelFill'") ◼︎ FILL
+            tool-button(
+                tool="PixelFill"
+                v-bind:selectedTool = "tool.currentTool"
+                @change-tool = "tool.currentTool = 'PixelFill'") ◼︎ Fill Brush
             .sliderContainer
                 input(type='range' value='8' max="60" v-model='tool.pixelFillSize' style='width: 200px')
             //br
             //.sliderContainer {{tool.currentTool}}
             //.button(@click='nextCleanupPixel = true') 🧙‍♂️✨🔮 Cleanup
-            .button(@click = 'nextDownload = true') Save ➡︎
+            .button(@click = 'nextDownload = true') Save 💦
             br
 
             color-button(v-bind:color = "tool.color") {{colorRemaining.val}} Pixel in color: {{colorRemaining.color}}
             color-button(v-bind:color = "tool.color") ≈{{colorRemaining.percent}}%
             color-button(v-bind:color = '[255,255,255]'
                 v-bind:selectedColor ="tool.color"
-                @change-color='tool.color = [255,255,255]') Empty Pixel: {{emptyPixels}}
+                @change-color='tool.color = [255,255,255]') 😤 Empty Pixel: {{emptyPixels}}
         .canvasWrapper
             vue-p5(@setup='setup'
                 @draw='draw'
@@ -48,15 +55,16 @@
                 @change-color='tool.color = [255,255,255]') Empty Pixel: {{emptyPixels}}
         .controll.pixelStats(v-else) There are no pixel left anymore!
             br
-            .button Download
+            .button(@click = 'nextDownload = true') Download
 </template>
 
 <script>
     import VueP5 from 'vue-p5'
     import ColorButton from "../components/colorButton"
+    import toolButton from "../components/toolButton"
     export default {
         name: "draw",
-        components: {ColorButton, VueP5},
+        components: {ColorButton, VueP5, toolButton},
         data: function () {
             return {
                 nextComputePixel: false,
@@ -180,7 +188,7 @@
                 //let pixels = this.sortedPixels(pixelDiff)
                 //pixelIst = pixels
                 let entries = Object.entries(pixelDiff)
-                let sorted = entries.sort((a, b) => b[1] - a[1]).filter(col => col[1] > 1)
+                let sorted = entries.sort((a, b) => b[1] - a[1]).filter(col => col[1] > 0)
                 let object = sorted.map(pixelVal => {
                     let color = pixelVal[0].split("-")
                     return {
