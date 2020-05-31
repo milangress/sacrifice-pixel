@@ -155,7 +155,7 @@ let pixelSoll;
         box-shadow 12px 12px 24px 0 rgba(0, 0, 0, 0.2),
                 -12px -12px 24px 0 rgba(255, 255, 255, 0.5)
     .colorBars
-        margin-left 0
+        margin-left 2rem
         margin-right 0
         //outline 1px solid black
         padding 1rem

@@ -1,6 +1,6 @@
 <template lang="pug">
     .home.page.drawingWrapper
-        .controll
+        .controll.tools
             span Tools: &nbsp;
             //.button(@click='tool.color = [255,255,255]') 😤 Eraser
             tool-button(
@@ -24,7 +24,7 @@
 
             color-button(v-bind:color = "tool.color") {{colorRemaining.val}} &nbsp;
                 span(v-if="colorRemaining.color") {{currentColorName}} &nbsp;
-                span Pixel left
+                span Pixel remaining
             color-button(v-bind:color = "tool.color") ≈{{colorRemaining.percent}}%
             color-button(v-bind:color = '[255,255,255]'
                 v-bind:selectedColor ="tool.color"
@@ -55,7 +55,7 @@
             //color-button(v-bind:color = '[255,255,255]'
                 v-bind:selectedColor ="tool.color"
                 @change-color='tool.color = [255,255,255]') Empty Pixel: {{emptyPixels}}
-        .controll.pixelStats(v-else) There are no pixel left anymore!
+        .controll.pixelStats(v-else) You used all your Pixel!
             br
             .button.hop(@click = 'nextDownload = true') Download
 </template>
@@ -315,4 +315,6 @@
         background: white
     .flip-list-move
         transition: transform 1s
+    .tools
+        //text-align center
 </style>

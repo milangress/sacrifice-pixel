@@ -41,6 +41,7 @@
 
   body
       background rgb(150, 150, 150)
+      margin 0
 
   *
       box-sizing border-box
@@ -68,7 +69,7 @@
       -moz-osx-font-smoothing grayscale
       text-align left
       color #ffffff
-      padding 30px
+      padding 1rem 2rem
       font-size 2.5rem
 
   h1, h2, h3, h4
@@ -91,7 +92,7 @@
   .hop
       transition transform ease 100ms
   .hop:hover
-      transform scale(1.03)
+      transform scale(1.05)
 
   #flowNav
       margin-bottom 2rem
@@ -117,7 +118,7 @@
   .button, .sliderContainer
       display inline-block
       padding 0.2rem 2rem
-      margin 0.5rem 0.3rem 0.2rem 0rem
+      margin 0.5rem 0.5rem 0.2rem 0rem
       background black
       color white
       min-width 2rem
