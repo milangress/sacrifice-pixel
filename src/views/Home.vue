@@ -1,7 +1,7 @@
 <template lang="pug">
     .start.page
-        h1 Sacrifice Pixel (2020)
-        a(href="https://en.wikipedia.org/wiki/Ship_of_Theseus") Ship of theseus
+        h1 ⛓️ Sacrifice Pixel (2020)
+        a(href="https://en.wikipedia.org/wiki/Ship_of_Theseus") Ship of theseus (TODO!)
         p Every 👏 Pixel 👏 is 👏 Sacred! Here comes a text about how in the physical world sacrificing and especially composting are essential… tun on webcam… etc…
         router-link(to="/sacrifice").button.hop GO composte Your Face
 </template>
