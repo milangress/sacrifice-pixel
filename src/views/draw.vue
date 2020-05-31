@@ -61,7 +61,7 @@
 </template>
 
 <script>
-    const namer = require('color-namer')
+    //const namer = require('color-namer')
     import VueP5 from 'vue-p5'
     import ColorButton from "../components/colorButton"
     import toolButton from "../components/toolButton"
@@ -258,7 +258,13 @@
             sacrificedPixels () {
                 return this.$store.state.pixels
             },
+            colorNameMap () {
+                return this.$store.state.colorNameMap
+            },
             currentColorName () {
+                return this.colorNameMap[this.tool.color.join("-")]
+            }
+            /*currentColorName () {
                 if (this.colorRemaining.color) {
                     const name = namer(this.colorRemaining.color, {
                         pick: ['ntc'],
@@ -268,7 +274,7 @@
                 } else {
                     return '0'
                 }
-            }
+            }*/
         }
     }
 </script>

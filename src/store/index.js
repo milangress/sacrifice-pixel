@@ -14,11 +14,15 @@ export default new Vuex.Store({
       '0-0-0': 20000,
       '200-0-0': 16000,
       '0-120-0': 8000
-    }
+    },
+    colorNameMap: {}
   },
   mutations: {
       updatePixels (state, n) {
         state.pixels = n
+      },
+      updateColorNameMap (state, n) {
+        state.colorNameMap = n
       },
       newName (state, n) {
         const randomName = uniqueNamesGenerator({
