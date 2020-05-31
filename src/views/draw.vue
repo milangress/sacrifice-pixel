@@ -19,7 +19,7 @@
             //br
             //.sliderContainer {{tool.currentTool}}
             //.button(@click='nextCleanupPixel = true') 🧙‍♂️✨🔮 Cleanup
-            .button(@click = 'nextDownload = true') Save 💦
+            .button.hop(@click = 'nextDownload = true') Save 💦
             br
 
             color-button(v-bind:color = "tool.color") {{colorRemaining.val}} &nbsp;
@@ -57,7 +57,7 @@
                 @change-color='tool.color = [255,255,255]') Empty Pixel: {{emptyPixels}}
         .controll.pixelStats(v-else) There are no pixel left anymore!
             br
-            .button(@click = 'nextDownload = true') Download
+            .button.hop(@click = 'nextDownload = true') Download
 </template>
 
 <script>

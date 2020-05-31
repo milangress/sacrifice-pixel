@@ -1,5 +1,5 @@
 <template lang="pug">
-    div.button(
+    div.button.hop(
         v-bind:class="{ active: isActive }"
         @click="$emit('change-tool')"
         )

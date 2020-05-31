@@ -3,8 +3,8 @@
         .controll
             div.sliderContainer Posterize:
                 input(type='range' value='5' min="2" max="12" v-model='posterizeVal' style='width: 150px')
-            div.button(@click="startStop") ⏸
-            div.button(@click="nextDownload = true") Compost 🌱 Pixel ➡︎
+            div.button.hop(@click="startStop") ⏸
+            div.button.hop(@click="nextDownload = true") Compost 🌱 Pixel ➡︎
         .canvasWrapper
             vue-p5(@setup='setup' @draw='draw')
             .colorBars.window
