@@ -15,7 +15,7 @@
                 v-bind:selectedTool = "tool.currentTool"
                 @change-tool = "tool.currentTool = 'PixelFill'") ◼︎ Fill Brush
             .sliderContainer
-                input(type='range' value='8' max="60" v-model='tool.pixelFillSize' style='width: 200px')
+                input(type='range' max="60" v-model='tool.pixelFillSize' style='width: 200px')
             //br
             //.sliderContainer {{tool.currentTool}}
             //.button(@click='nextCleanupPixel = true') 🧙‍♂️✨🔮 Cleanup
@@ -76,9 +76,9 @@
                 emptyPixels: 0,
                 tool: {
                     color: [0,120,0],
-                    currentTool: 'PixelFill',
+                    currentTool: 'SinglePixel',
                     pixelBrushSize: 3,
-                    pixelFillSize: 18,
+                    pixelFillSize: 24,
                 },
                 colorRemaining: {
                     val: 0,
