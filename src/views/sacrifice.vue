@@ -16,6 +16,7 @@
 </template>
 
 <script>
+    const namer = require('color-namer')
 import VueP5 from 'vue-p5';
 import router from "../router"
 let capture;
@@ -45,7 +46,22 @@ let pixelSoll;
                 }
             },
             commitPixels: function () {
-                this.$store.commit('updatePixels', this.imageData)
+                this.$store.commit('updatePixels', pixelSoll)
+                let colorNameMap = {}
+                Object.keys(pixelSoll).forEach(function(key) {
+                    const colorString = key.toString()
+                    const colorRGBString = `rgb(${colorString.split('-').join(',')})`
+                    const colorName = namer(colorRGBString, {
+                        pick: ['ntc'],
+                        distance: 'deltaE'
+                    })
+                    if (colorName.ntc[0].name) {
+                        colorNameMap[key] = colorName.ntc[0].name
+                    } else {
+                        colorNameMap[key] = 0
+                    }
+                });
+                this.$store.commit('updateColorNameMap', colorNameMap)
                 this.turnWebcamOff()
                 router.push({ path: 'draw' })
             },
