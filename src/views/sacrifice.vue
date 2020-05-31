@@ -45,7 +45,7 @@ let pixelSoll;
                 }
             },
             commitPixels: function () {
-                this.$store.commit('updatePixels', pixelSoll)
+                this.$store.commit('updatePixels', this.imageData)
                 this.turnWebcamOff()
                 router.push({ path: 'draw' })
             },

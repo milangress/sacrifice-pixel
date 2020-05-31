@@ -22,7 +22,9 @@
             .button(@click = 'nextDownload = true') Save 💦
             br
 
-            color-button(v-bind:color = "tool.color") {{colorRemaining.val}} Pixel in color: {{colorRemaining.color}}
+            color-button(v-bind:color = "tool.color") {{colorRemaining.val}} &nbsp;
+                span(v-if="colorRemaining.color") {{currentColorName}} &nbsp;
+                span Pixel left
             color-button(v-bind:color = "tool.color") ≈{{colorRemaining.percent}}%
             color-button(v-bind:color = '[255,255,255]'
                 v-bind:selectedColor ="tool.color"
@@ -59,6 +61,7 @@
 </template>
 
 <script>
+    const namer = require('color-namer')
     import VueP5 from 'vue-p5'
     import ColorButton from "../components/colorButton"
     import toolButton from "../components/toolButton"
@@ -254,6 +257,17 @@
             },
             sacrificedPixels () {
                 return this.$store.state.pixels
+            },
+            currentColorName () {
+                if (this.colorRemaining.color) {
+                    const name = namer(this.colorRemaining.color, {
+                        pick: ['ntc'],
+                        distance: 'deltaE'
+                    })
+                    return name.ntc[0].name
+                } else {
+                    return '0'
+                }
             }
         }
     }
