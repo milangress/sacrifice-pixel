@@ -4,7 +4,7 @@
             div.sliderContainer Posterize:
                 input(type='range' value='5' min="2" max="12" v-model='posterizeVal' style='width: 150px')
             div.button(@click="startStop") ⏸
-            div.button(@click="commitPixels") Compost 🙌 Pixel ➡︎
+            div.button(@click="nextDownload = true") Compost 🙌 Pixel ➡︎
         .canvasWrapper
             vue-p5(@setup='setup' @draw='draw')
             .colorBars.window
@@ -28,6 +28,7 @@ let pixelSoll;
                 imageData: [{ "color": "rgb(0,128,0)", "val": 259188 }],
                 isRunning: true,
                 posterizeVal: 5,
+                nextDownload: false,
             }
         },
         mounted() {
@@ -62,6 +63,11 @@ let pixelSoll;
                 }
                 sk.filter(sk.POSTERIZE, this.posterizeVal)
                 this.getPixelArray(sk)
+                if (this.nextDownload) {
+                    sk.saveCanvas(`${this.name}-webcam`, 'png');
+                    this.nextDownload = false
+                    this.commitPixels()
+                }
             },
             turnWebcamOff: function () {
                 let stream = capture.elt.srcObject
@@ -120,7 +126,10 @@ let pixelSoll;
             },
             height () {
                 return this.$store.state.height
-            }
+            },
+            name () {
+                return this.$store.state.name
+            },
         }
     }
 </script>

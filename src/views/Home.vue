@@ -7,7 +7,10 @@
 
 <script>
     export default {
-        name: "Home"
+        name: "Home",
+        mounted() {
+            this.$store.commit('newName')
+        },
     }
 </script>
 

@@ -12,12 +12,14 @@
             //br
             //.sliderContainer {{tool.currentTool}}
             //.button(@click='nextCleanupPixel = true') 🧙‍♂️✨🔮 Cleanup
-            .button Share ➡︎
+            .button(@click = 'nextDownload = true') Save ➡︎
             br
-            .button Empty Pixel: {{emptyPixels}}
 
             color-button(v-bind:color = "tool.color") {{colorRemaining.val}} Pixel in color: {{colorRemaining.color}}
             color-button(v-bind:color = "tool.color") ≈{{colorRemaining.percent}}%
+            color-button(v-bind:color = '[255,255,255]'
+                v-bind:selectedColor ="tool.color"
+                @change-color='tool.color = [255,255,255]') Empty Pixel: {{emptyPixels}}
         .canvasWrapper
             vue-p5(@setup='setup'
                 @draw='draw'
@@ -35,12 +37,18 @@
                     p
                         | {{item.val}}
                         span.info ({{item.percent}}%) {{item.color}}
-        .controll Choose you Pixel: &nbsp;
+        .controll.pixelStats(v-if='imageData.length >= 1') Choose you Pixel: &nbsp;
             color-button(v-for='(item) in imageData' :key='item.color'
                 @change-color='tool.color = item.colorVal'
                 v-bind:color = 'item.colorVal'
                 v-bind:selectedColor ="tool.color"
                 ) {{item.val}} Pixel
+            //color-button(v-bind:color = '[255,255,255]'
+                v-bind:selectedColor ="tool.color"
+                @change-color='tool.color = [255,255,255]') Empty Pixel: {{emptyPixels}}
+        .controll.pixelStats(v-else) There are no pixel left anymore!
+            br
+            .button Download
 </template>
 
 <script>
@@ -53,12 +61,13 @@
             return {
                 nextComputePixel: false,
                 nextCleanupPixel: false,
+                nextDownload: false,
                 emptyPixels: 0,
                 tool: {
                     color: [0,120,0],
                     currentTool: 'PixelFill',
                     pixelBrushSize: 3,
-                    pixelFillSize: 8,
+                    pixelFillSize: 18,
                 },
                 colorRemaining: {
                     val: 0,
@@ -89,6 +98,10 @@
                 if (this.nextCleanupPixel) {
                     this.killOverflowingPixels(sk)
                     this.nextCleanupPixel = false
+                }
+                if (this.nextDownload) {
+                    sk.saveCanvas(`${this.name}-drawing`, 'png');
+                    this.nextDownload = false
                 }
             },
             mouseReleased(sk) {
@@ -183,6 +196,9 @@
             killOverflowingPixels(sk) {
                 sk.loadPixels();
                 let pixelDiff = Object.assign({}, this.sacrificedPixels)
+                Object.keys(pixelDiff).forEach(function(key) {
+                    pixelDiff[key] = pixelDiff[key] + 1
+                });
                 for (let y = 0; y < sk.height; y++) {
                     for (let x = 0; x < sk.width; x++) {
                         const index = (x + y * sk.width) * 4
@@ -225,6 +241,9 @@
             height () {
                 return this.$store.state.height
             },
+            name () {
+                return this.$store.state.name
+            },
             sacrificedPixels () {
                 return this.$store.state.pixels
             }
@@ -235,6 +254,8 @@
 <style scoped lang="stylus">
     .drawingWrapper
         //display flex
+    .pixelStats
+        margin-top 2rem
     .colorBars
         margin-left: 0
         margin-right: 0
