@@ -14,7 +14,10 @@
                 tool="PixelFill"
                 v-bind:selectedTool = "tool.currentTool"
                 @change-tool = "tool.currentTool = 'PixelFill'") ◼︎ Fill Brush
-            .sliderContainer
+                .miniSliderContainer
+                    input(type='range' max="60" v-model='tool.pixelFillSize' style='width: 200px')
+                    span &nbsp;{{tool.pixelFillSize}} px
+            //.sliderContainer
                 input(type='range' max="60" v-model='tool.pixelFillSize' style='width: 200px')
             //br
             //.sliderContainer {{tool.currentTool}}

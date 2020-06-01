@@ -117,7 +117,7 @@
 
   .button
       cursor pointer
-  .button, .sliderContainer
+  .button, .sliderContainer, .miniSliderContainer
       display inline-block
       padding 0.2rem 2rem
       margin 0.5rem 0.5rem 0.2rem 0rem
@@ -139,11 +139,15 @@
   .controll
     user-select: none
 
-  .sliderContainer
+  .sliderContainer, .miniSliderContainer
       background darkgray
 
-  .sliderContainer input
+  .sliderContainer input, .miniSliderContainer input
       vertical-align: 50%
+  .miniSliderContainer
+      padding 0.1rem 1rem
+      margin 0.1rem 0rem 0.1rem 0.5rem
+      line-height 0.9
 
   .slide-enter-active,
   .slide-leave-active
