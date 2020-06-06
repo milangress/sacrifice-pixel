@@ -26,8 +26,9 @@
       router-link(to="/v1") (Old Version)
       router-link(to="/manual") Manual
       router-link(to="/changelog") Changes
-    transition(name="slide" mode="out-in")
-      router-view
+    main
+        transition(name="slide" mode="out-in")
+          router-view
     hr
     #nav
       router-link(to="/").button.hop ♻️ Restart
@@ -46,6 +47,8 @@
   *
       box-sizing border-box
 
+  main
+    min-height 100vh
   .p5Canvas
       cursor crosshair
       box-shadow 12px 12px 24px 0 rgba(0, 0, 0, 0.2),
