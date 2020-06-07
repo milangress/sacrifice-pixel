@@ -160,7 +160,7 @@ let pixelSoll;
         //outline 1px solid black
         padding 1rem
         width 20vw
-        height 650px
+        height 600px
         overflow scroll
     .colorBars p
         margin-top 0.1rem

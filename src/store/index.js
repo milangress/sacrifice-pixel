@@ -8,8 +8,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     name: 'Milan',
-    width: 210,
-    height: 310,
+    width: 240,
+    height: 300,
     pixels: {
       '0-0-0': 20000,
       '200-0-0': 16000,
