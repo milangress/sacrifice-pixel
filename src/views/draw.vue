@@ -61,6 +61,10 @@
         .controll.pixelStats(v-else) You used all your Pixel!
             br
             .button.hop(@click = 'nextDownload = true') Download
+            br
+            p I would love it if you could send my your image via mail :)
+            a(href="mailto:sacrifice@milangress.de") sacrifice@milangress.de
+
 </template>
 
 <script>
