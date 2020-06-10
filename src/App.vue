@@ -34,6 +34,7 @@
       router-link(to="/").button.hop ♻️ Restart
       //router-link(to="/v1").button.hop (Old Version)
       router-link(to="/manual").button.hop Manual
+      router-link(to="/statement").button.hop Statement
       router-link(to="/changelog").button.hop Changes
 </template>
 

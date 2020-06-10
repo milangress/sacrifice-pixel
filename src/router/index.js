@@ -6,6 +6,7 @@ import changelog from "../views/changelog"
 import manual from "../views/manual"
 import sacrifice from "../views/sacrifice"
 import draw from "../views/draw"
+import Statement from "../views/Statement"
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ Vue.use(VueRouter)
       path: '/manual',
       name: 'manual',
       component: manual
+    },
+    {
+      path: '/statement',
+      name: 'Statement',
+      component: Statement
     },
 ]
 
