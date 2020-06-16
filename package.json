@@ -12,6 +12,7 @@
     "core-js": "^3.6.4",
     "unique-names-generator": "^4.2.0",
     "vue": "^2.6.11",
+    "vue-gtag": "^1.6.3",
     "vue-p5": "^0.8.3",
     "vue-router": "^3.1.6",
     "vuex": "^3.1.3"
